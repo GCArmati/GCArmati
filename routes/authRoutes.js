@@ -10,4 +10,3 @@ router.post('/login',login);
 
 module.exports=router;
 //esportazione del router del login e della registrazione
-//nè alpha, nè beta, nè gamma, manco so che cazzo sta scritto

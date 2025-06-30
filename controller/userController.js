@@ -20,12 +20,14 @@ async function dbCon(){
 async function register(req,res){
     await dbCon();
     //da vedere sto fatto di req.body
-    const {username,password}=req.body;
+    const {username,password,userEmail}=req.body;
     try{
-        const existing=await Users.findOne({userName:req.body.username});
+        const emailExisting=await Users.findOne({email:userEmail});
+        if(emailExisting)return res.status(400).json({error:"Email già in uso"});
+        const existing=await Users.findOne({userName:username});
         if(existing)return res.status(400).json({error:"Username già in uso"});
 
-        await userCreate(username,password);
+        await userCreate(username,password,userEmail);
 
         res.status(201)
         res.json({message:"Registrazione completata"})
@@ -96,7 +98,7 @@ async function refreshToken(req,res){ //da esportare
     if(!cookies?.jwt){
         return res.status(401).json({ message: "Non autorizzato: Refresh token mancante." });
     }
-    const refreshTokenFromCookie=cookie.jwt;
+    const refreshTokenFromCookie=cookies.jwt;
     try{const foundToken=await RefreshToken.findOne({token:refreshTokenFromCookie});
         if(!foundToken){
             //può voler dire che è scaduto o compromesso
@@ -120,6 +122,9 @@ async function refreshToken(req,res){ //da esportare
 
     }catch(e){
 
+
+
+
     }
 
 
@@ -135,12 +140,13 @@ async function logout(req,res){ //da esportare
 
 //funzione per creare un utente dando in pasto username e password,
 
-async function userCreate(username,pw){
+async function userCreate(username,pw,userEmail){
     await dbCon()
     try{
         const user=await Users.create({
             userName:username,
             password:pw,
+            email:userEmail,
         })
         console.log("Utente creato");
         //showcase del porcoddio
