@@ -16,6 +16,7 @@ async function dbCon(){
     }
 }
 
+
 //funzione per fare register con la create
 
 async function register(req,res){
@@ -23,9 +24,9 @@ async function register(req,res){
     //da vedere sto fatto di req.body
     const {username,password,userEmail}=req.body;
     try{
-        const emailExisting=await Users.findOne({email:userEmail});
+        const emailExisting=await Users.findOne({userEmail});
         if(emailExisting)return res.status(400).json({error:"Email già in uso"});
-        const existing=await Users.findOne({userName:username});
+        const existing=await Users.findOne({username});
         if(existing)return res.status(400).json({error:"Username già in uso"});
 
         await userCreate(username,password,userEmail);
@@ -40,11 +41,11 @@ async function register(req,res){
     await mongoose.disconnect();
 
 }
-//creo una funzione che genera due funzioni per generare tokens
+//creo una funzione che genera due tokens
 
 const generateTokens=(userID,username)=>{
-    const accessToken=jwt.sign({userId:userID,userName:username},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
-    const refreshToken=jwt.sign({userId:userID,userName:username},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
+    const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
+    const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
     return  {accessToken,refreshToken};
 
 }
@@ -55,11 +56,16 @@ const generateTokens=(userID,username)=>{
 async function login(req,res){
     await dbCon()
 
-    const username =req.body.username;
-    const pwd=req.body.password;
+    const userEmail=req.body.userEmail;
+    const password=req.body.password;
     try{
+        if(!userEmail||!password){
+            return res.status(400).json({message:"Email e password sono obbligatori"})
+        }
         const user=await Users.findOne({username})
         if(!user) return res.status(400).json({error:"Utente non trovato"})
+
+
 
         const valid= await user.passwordCompare(pwd)
         if(!valid) return res.status(401).json({error:"Password Errata. Login Non effettuato."})
@@ -91,7 +97,7 @@ async function login(req,res){
 async function refreshToken(req,res){ //da esportare
     const cookies=req.cookies;
 
-    //controllo con il CHAINING OPERATOR ?. serve ad evitare errori nel caso
+    //controllo con il CHAINING OPERATOR ?. serve a evitare errori nel caso
     //l'oggetto prima del punto (cookies) sia null o undefined
     //if(!cookies.jwt) errore se cookies è undefined
     //in sostanza se il cookie non esiste o non è definito oppure non c'è
@@ -122,14 +128,7 @@ async function refreshToken(req,res){ //da esportare
         res.json({ accessToken: newAccessToken });
 
     }catch(e){
-
-
-
-
     }
-
-
-
 }
 
 
@@ -150,7 +149,6 @@ async function userCreate(username,pw,userEmail){
             email:userEmail,
         })
         console.log("Utente creato");
-        //showcase del porcoddio
         console.log(user)
     }catch(err){
         console.error(err)
