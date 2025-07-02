@@ -55,7 +55,6 @@ const generateTokens=(userID,username)=>{
 
 async function login(req,res){
     await dbCon()
-
     const userEmail=req.body.userEmail;
     const password=req.body.password;
     try{
@@ -67,16 +66,19 @@ async function login(req,res){
 
 
 
-        const valid= await user.passwordCompare(pwd)
+        const valid= await user.comparePassword(password)
         if(!valid) return res.status(401).json({error:"Password Errata. Login Non effettuato."})
 
-        const {accessToken,refreshToken}=generateTokens(user.__id,username);
-        await RefreshToken.create({token:refreshToken,userId:user.__id});
+        const {accessToken,refreshToken}=generateTokens(user._id);
+        await RefreshToken.create({
+            token:refreshToken,
+            userId:user._id
+        });
 
         //salva refresh cookie
         res.cookie('jwt', refreshToken, {
             httpOnly: true,         // Accessibile solo dal server web
-            secure: process.env.NODE_ENV === 'production', // Solo su HTTPS in produzione
+            secure: process.env.NODE_ENV === 'production', // Solo su HTTPS in produzione, in sviluppo sarà possibile usare anche HTTP
             sameSite: 'Strict',     // Aiuta a prevenire CSRF
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 giorni (come la scadenza del token)
         });
