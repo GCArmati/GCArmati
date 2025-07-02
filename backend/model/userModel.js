@@ -26,15 +26,11 @@ const userSchema=new mongoose.Schema({
     createdAt:{
         type:Date,
         overwriteImmutable:true,
-        default: ()=> new Date().toLocaleString('it,IT',{
-            timeZone:'Europe/Rome'
-        }),
+        default:Date.now
     },
     updatedAt:{
         type:Date,
-        default: ()=> new Date().toLocaleString('it,IT',{
-            timeZone:'Europe/Rome'
-        }),
+        default:Date.now
     }
 });
 

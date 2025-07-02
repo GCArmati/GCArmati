@@ -20,30 +20,34 @@ async function dbCon(){
 //funzione per fare register con la create
 
 async function register(req,res){
-    await dbCon();
     //da vedere sto fatto di req.body
-    const {username,password,userEmail}=req.body;
+    const {username,password,email}=req.body;
     try{
-        const emailExisting=await Users.findOne({userEmail});
+        const emailExisting=await Users.findOne({
+            email: email
+        });
         if(emailExisting)return res.status(400).json({error:"Email già in uso"});
-        const existing=await Users.findOne({username});
+        const existing=await Users.findOne({
+            userName: username
+        });
         if(existing)return res.status(400).json({error:"Username già in uso"});
 
-        await userCreate(username,password,userEmail);
-
-        res.status(201)
-        res.json({message:"Registrazione completata"})
+       const errore= await userCreate(username,password,email);
+       if(errore){
+           res.status(500).json({message:"Errore interno"})
+       }
+       else{
+           res.status(201).json({message:"Registrazione completata"})
+       }
     }catch(err){
         //lo so che in console non mi serve a una ciola (forse)
         console.error(err);
         res.status(500).json({error:"Errore interno"});
     }
-    await mongoose.disconnect();
-
 }
 //creo una funzione che genera due tokens
 
-const generateTokens=(userID,username)=>{
+const generateTokens=(userID)=>{
     const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
     const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
     return  {accessToken,refreshToken};
@@ -54,14 +58,14 @@ const generateTokens=(userID,username)=>{
 //funzione di login che sfrutta le funzioni per generare tokens
 
 async function login(req,res){
-    await dbCon()
-    const userEmail=req.body.userEmail;
+
+    const email=req.body.email;
     const password=req.body.password;
     try{
-        if(!userEmail||!password){
+        if(!email||!password){
             return res.status(400).json({message:"Email e password sono obbligatori"})
         }
-        const user=await Users.findOne({username})
+        const user=await Users.findOne({email:email})
         if(!user) return res.status(400).json({error:"Utente non trovato"})
 
 
@@ -72,7 +76,7 @@ async function login(req,res){
         const {accessToken,refreshToken}=generateTokens(user._id);
         await RefreshToken.create({
             token:refreshToken,
-            userId:user._id
+            userId:user._id,
         });
 
         //salva refresh cookie
@@ -80,7 +84,7 @@ async function login(req,res){
             httpOnly: true,         // Accessibile solo dal server web
             secure: process.env.NODE_ENV === 'production', // Solo su HTTPS in produzione, in sviluppo sarà possibile usare anche HTTP
             sameSite: 'Strict',     // Aiuta a prevenire CSRF
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 giorni (come la scadenza del token)
+            maxAge:  6* 24 * 60 * 60 * 1000 // 6 giorni (come la scadenza del token)
         });
         // Invia l'access token nel corpo della risposta
         res.json({
@@ -91,7 +95,6 @@ async function login(req,res){
         console.error(err);
         res.status(500).json({error:"Errore interno"});
     }
-    await mongoose.disconnect();
 
 }
 
@@ -108,7 +111,9 @@ async function refreshToken(req,res){ //da esportare
         return res.status(401).json({ message: "Non autorizzato: Refresh token mancante." });
     }
     const refreshTokenFromCookie=cookies.jwt;
-    try{const foundToken=await RefreshToken.findOne({token:refreshTokenFromCookie});
+    try{const foundToken=await RefreshToken.findOne({
+        token:refreshTokenFromCookie
+        });
         if(!foundToken){
             //può voler dire che è scaduto o compromesso
             return res.status(403).json({ message: "Proibito: Refresh token non valido o scaduto." });
@@ -143,7 +148,6 @@ async function logout(req,res){ //da esportare
 //funzione per creare un utente dando in pasto username e password,
 
 async function userCreate(username,pw,userEmail){
-    await dbCon()
     try{
         const user=await Users.create({
             userName:username,
@@ -153,9 +157,10 @@ async function userCreate(username,pw,userEmail){
         console.log("Utente creato");
         console.log(user)
     }catch(err){
-        console.error(err)
+        console.error(err);
+        return err;
     }
-    await mongoose.disconnect()
+
 
 }
 
@@ -163,6 +168,7 @@ async function userCreate(username,pw,userEmail){
 
 
 module.exports={
+    dbCon,
     register,
     login,
 
