@@ -30,7 +30,7 @@ async function register(req,res){
         const existing=await Users.findOne({
             userName: username
         });
-        if(existing)return res.status(400).json({error:"Username già in uso"});
+        if(existing)return res.status(400).json({error:"Username già in uso: "});
 
        const errore= await userCreate(username,password,email);
        if(errore){
@@ -79,7 +79,7 @@ async function login(req,res){
             userId:user._id,
         });
 
-        //salva refresh cookie
+        //salva refresh token
         res.cookie('jwt', refreshToken, {
             httpOnly: true,         // Accessibile solo dal server web
             secure: process.env.NODE_ENV === 'production', // Solo su HTTPS in produzione, in sviluppo sarà possibile usare anche HTTP
@@ -93,7 +93,7 @@ async function login(req,res){
         });
     }catch(err){
         console.error(err);
-        res.status(500).json({error:"Errore interno"});
+        res.status(500).json({error:"Errore interno durante login"});
     }
 
 }
@@ -110,31 +110,37 @@ async function refreshToken(req,res){ //da esportare
     if(!cookies?.jwt){
         return res.status(401).json({ message: "Non autorizzato: Refresh token mancante." });
     }
+    //prendo dal fottuto BISCOTTO il token che avevo messo nella fase di login
     const refreshTokenFromCookie=cookies.jwt;
-    try{const foundToken=await RefreshToken.findOne({
-        token:refreshTokenFromCookie
+
+    try{
+        const foundToken=await RefreshToken.findOne ({
+        token: refreshTokenFromCookie
         });
+        //se non lo ha trovato nel db ci si fa qualche domanda, evidentemente è una banana
         if(!foundToken){
-            //può voler dire che è scaduto o compromesso
+            //può succedere infatti di trovarlo nel cookie ma non nel DB, molto male amigo
+            // può voler dire che è scaduto o compromesso, quindi gli chiedo il login
+            // (TODO login)
             return res.status(403).json({ message: "Proibito: Refresh token non valido o scaduto." });
         }
 
         jwt.verify(refreshTokenFromCookie,process.env.REFRESH_TOKEN,async(err,decoded)=>{
-            if(err||foundToken.userId.toString() !==decoded.userId) {
+            if(err || foundToken.userId.toString()!== decoded.userId ) {
                 // Se la verifica fallisce o l'ID utente nel token non corrisponde a quello nel DB
                 return res.status(403).json({ message: "Proibito: Refresh token non valido o scaduto." });
             }
+            //dal momento che è valido posso generare il nuovo accessToken
+            const newAccessToken = jwt.sign(
+                { userId: decoded.userId },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '25m' }
+            );
+            res.json({ accessToken: newAccessToken });
         });
-        // Il refresh token è valido, genera un nuovo access token
-        const newAccessToken = jwt.sign(
-            { userId: decoded.userId },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '15m' }
-        );
-
-        res.json({ accessToken: newAccessToken });
 
     }catch(e){
+        res.status(500).json({message:"Internal Error"})
     }
 }
 
