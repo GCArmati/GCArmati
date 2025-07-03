@@ -1,24 +1,19 @@
 const Users =require("../model/userModel");
-const mongoose=require('mongoose');
 const RefreshToken=require("../model/tokenModel")
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+//creo una funzione che genera due tokens
 
-//funzione INTERNA per connettersi al db,
-// mantengo pulite tutte le operazioni effettuando disconnessione
-async function dbCon(){
-    try{
-        await mongoose.connect("mongodb+srv://commercialfra:"+process.env.DB_CON_PSW+"@cluster0.cezfbna.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
-        console.log("Connesso al database, operazione:")
-    }catch(err) {
-        console.error(err);
-    }
+const generateTokens=(userID)=>{
+    const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
+    const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
+    return  {accessToken,refreshToken};
+
 }
 
-
 //funzione per fare register con la create
-
+//nel body della richiesta ci deve essere username, password e email
 async function register(req,res){
     //da vedere sto fatto di req.body
     const {username,password,email}=req.body;
@@ -45,18 +40,11 @@ async function register(req,res){
         res.status(500).json({error:"Errore interno"});
     }
 }
-//creo una funzione che genera due tokens
 
-const generateTokens=(userID)=>{
-    const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
-    const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
-    return  {accessToken,refreshToken};
-
-}
 
 
 //funzione di login che sfrutta le funzioni per generare tokens
-
+//nel body della richiesta ci deve essere email e password
 async function login(req,res){
 
     const email=req.body.email;
@@ -102,7 +90,7 @@ async function login(req,res){
 async function refreshToken(req,res){ //da esportare
     const cookies=req.cookies;
 
-    //controllo con il CHAINING OPERATOR ?. serve a evitare errori nel caso
+    //controllo con il CHAINING OPERATOR ?. Serve a evitare errori nel caso
     //l'oggetto prima del punto (cookies) sia null o undefined
     //if(!cookies.jwt) errore se cookies è undefined
     //in sostanza se il cookie non esiste o non è definito oppure non c'è
@@ -146,6 +134,26 @@ async function refreshToken(req,res){ //da esportare
 
 
 async function logout(req,res){ //da esportare
+    const cookies=req.cookies;
+    if(!cookies?.jwt){
+        return res.sendStatus(204);
+    }//Nessun cookie da rimuovere per l'utente
+    const refreshTokenFromCookie=cookies.jwt;
+    try{
+        await RefreshToken.deleteOne({
+            token:refreshTokenFromCookie
+        })
+        //pulisco il cookie dal browser
+        res.clearCookie("jwt",{
+            httpOnly:true,
+            secure:process.env.NODE_ENV,
+            sameSite:"strict",
+        })
+        res.status(200).json({message:'Logout effettuato con successo.'})
+    }catch(e){
+        console.error("Errore durante il logout: "+e);
+        res.status(500).json({message:'Errore interno in fase di logout.'})
+    }
 
 
 
@@ -174,7 +182,8 @@ async function userCreate(username,pw,userEmail){
 
 
 module.exports={
-    dbCon,
+    refreshToken,
+    logout,
     register,
     login,
 

@@ -3,7 +3,7 @@ const express=require("express");
 const app=express();
 const port=3000;
 const cookieParser=require('cookie-parser');
-const {dbCon}=require('./backend/controller/userController')
+const dbCon=require('./backend/controller/DBcontroller')
 const authRoutes=require("./backend/routes/authRoutes")
 //parsing dei cookie
 

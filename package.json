@@ -1,0 +1,31 @@
+{
+  "name": "gcarmati",
+  "version": "1.0.0",
+  "description": "Gioco di carri armati Online Flash eccetera\r Mai fidarsi di Mr Vip e Prince North Face e sopratutto Sinister Cobra 5",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GCArmati/GCArmati.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GCArmati/GCArmati/issues"
+  },
+  "homepage": "https://github.com/GCArmati/GCArmati#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.1",
+    "validator": "^13.15.15"
+  }
+}
