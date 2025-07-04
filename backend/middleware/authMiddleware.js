@@ -1,5 +1,4 @@
 const jwt=require('jsonwebtoken')
-const User=require('../model/userModel')
 
 //questo servirà solo nelle varie funzioni della logica della pagina
 function verifyToken(req,next){
