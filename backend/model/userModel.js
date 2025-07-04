@@ -1,6 +1,7 @@
 const mongoose=require("mongoose");
 const bcrypt=require("bcryptjs");
 const {isEmail} =require("validator");
+const Cart=require('./cartModel')
 
 
 const userSchema=new mongoose.Schema({
@@ -31,8 +32,31 @@ const userSchema=new mongoose.Schema({
     updatedAt:{
         type:Date,
         default:Date.now
+    },
+    role:{
+        type:String,
+        default:"Utente"
+    },
+    cart:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:Cart,
+        required:true,
     }
 });
+
+userSchema.pre('save', async function(next){
+    if(this.cart){
+        return next();
+    }
+    try{
+        const newCart=await Cart.create({
+            list:[]
+        })
+        this.cart=newCart._id;
+    }catch(e){
+        next(e);
+    }
+})
 
 userSchema.pre("save",async function(next){
     if(!this.isModified('password')){
@@ -46,6 +70,8 @@ userSchema.pre("save",async function(next){
         next(e);
     }
 })
+
+
 
 userSchema.methods.comparePassword=async function(candidatePw){
     return await bcrypt.compare(candidatePw,this.password);
