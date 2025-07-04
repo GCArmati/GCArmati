@@ -1,23 +1,27 @@
 {
-  "name": "GCArmati",
+  "name": "gcarmati",
   "version": "1.0.0",
-  "main": "backend/server.js",
+  "description": "Gioco di carri armati Online Flash eccetera\r Mai fidarsi di Mr Vip e Prince North Face e sopratutto Barbabietola82",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon backend/server.js"
+    "dev": "nodemon backend/server.js",
+    "start": "node backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GCArmati/GCArmati.git"
   },
   "keywords": [],
   "author": "",
-  "type": "module",
   "license": "ISC",
-  "description": "",
+  "bugs": {
+    "url": "https://github.com/GCArmati/GCArmati/issues"
+  },
+  "homepage": "https://github.com/GCArmati/GCArmati#readme",
   "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "cookie-parser": "^1.4.7",
-    "crypto": "^1.0.1",
-    "dotenv": "^17.0.0",
+    "dotenv": "^17.0.1",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mailtrap": "^4.1.0",
     "mongoose": "^8.16.1"
   },
   "devDependencies": {

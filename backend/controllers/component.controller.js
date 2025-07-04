@@ -1,33 +1,50 @@
-import {Component} from '../models/Component.js'
+import Component from '../models/Component.js'
 
-export const add = async (req,res) => {
-    const {name, category, price, brand} = req.body;
+// function to create a component in db
+export const createComponent = async (req, res) => {
     try{
-        if(!name || !category || !price || !brand){
-            throw new Error("All fields are required");
+        const {name, description, price, category} = req.body;
+
+        if(!name || !description || !price || !category){
+            res.status(400).json({message: "All the fields are required"});
         }
 
-        const componentAlreadyExist = await Component.findOne({name});
-        if(componentAlreadyExist){
-            return res.status(400).json({success:false, message: "Component already exists"});
-        }
-
-        const component = new Component({
+        const component = await Component.create({
             name,
-            category,
+            description,
             price,
-            brand
+            category,
         })
 
-        await component.save();
-
-        res.status(201).json({success:true,
-            message: "Component created successfully",
-            component: {
-                ...component._doc,
-            }
-        });
+        res.status(200).json(component);
     }catch(error){
-        res.status(400).json({success:false, message: error.message});
+        console.log("Error in createComponent controller",error.message);
+        res.status(500).json({message: "Server error", error: error.message});
+    }
+}
+
+export const deleteComponent = async (req, res) => {
+    try{
+        const component = await Component.findById(req.params.id);
+
+        if(!component){
+            res.status(404).json({message: "Component not found"});
+        }
+
+        await Component.findByIdAndDelete(req.paramas.id);
+    }catch(error){
+        console.log("Error in deleteComponent controller",error.message);
+        res.status(500).json({message: "Server error", error: error.message});
+    }
+}
+
+export const getComponentsByCategory = async (req, res) => {
+    const {category} = req.params;
+    try{
+        const components = await Component.find({category});
+        res.json(components);
+    }catch(error){
+        console.log("Error in getComponentsByCategory controller", error.message);
+        res.status(500).json({message: "Server error", error: error.message});
     }
 }

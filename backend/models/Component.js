@@ -1,23 +1,24 @@
 import mongoose from 'mongoose';
 
-const ComponentSchema = new mongoose.Schema({
+const componentSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, "Name is required"],
     },
-    category: {
+    description: {
         type: String,
-        required: true,
+        required: [true, "Description is required"],
     },
     price: {
         type: Number,
-        required: true,
+        required: [true, "Price is required"],
+        min: 0,
     },
-    brand: {
+    category: {
         type: String,
-        required: true,
+        required: [true, "Category is required"],
     }
 }, {timestamps: true});
 
-export const Component = mongoose.model('Component', ComponentSchema);
+const Component = mongoose.model('Component', componentSchema);
+export default Component;
