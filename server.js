@@ -5,6 +5,7 @@ const port=3000;
 const cookieParser=require('cookie-parser');
 const dbCon=require('./backend/controller/DBcontroller')
 const authRoutes=require("./backend/routes/authRoutes")
+const cartRoutes=require('./backend/routes/cartRoutes')
 //parsing dei cookie
 
 app.use(cookieParser());
@@ -13,6 +14,7 @@ app.use(cookieParser());
 //lo rende disponibile nella variabile req.body
 app.use(express.json());
 app.use('/api/auth',authRoutes);
+app.use('/api/cart',cartRoutes);
 
 
 dbCon().then(()=>{

@@ -1,6 +1,6 @@
 const mongoose=require('mongoose')
 const Component=require('./componentModel')
-const User=require('./userModel')
+
 
 const cartSchema=new mongoose.Schema({
     componentsList:[
