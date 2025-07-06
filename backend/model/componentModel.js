@@ -15,23 +15,19 @@ const componentSchema=new mongoose.Schema({
     nameTag:{
         type:String,
         required:true,
-        unique:[true,'C\'è un\'immagine con lo stesso url nel DB']
+        unique:[true,'C\'è un componente con lo stesso nome nel DB']
     },
+    /*
     amount:{
         type:Number,
         min:0,
         required:true
-    },
+    },*/
     priceTag:{
         type:Number,
         min:0,
         required:true
     }
 })
-
-
-componentSchema.methods.verifyMe=async function(role){
-
-}
 
 module.exports=mongoose.model('Component',componentSchema)

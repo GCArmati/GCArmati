@@ -1,7 +1,7 @@
 const jwt=require('jsonwebtoken')
 
 //questo servirà solo nelle varie funzioni della logica della pagina
-function verifyToken(req,next){
+function verifyToken(req,res,next){
     const authHeader=req.header.authorization || req.header.Authorization;
 
     if(!authHeader?.startsWith("Bearer ")){

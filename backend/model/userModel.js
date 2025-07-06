@@ -35,24 +35,27 @@ const userSchema=new mongoose.Schema({
     },
     role:{
         type:String,
-        default:"Utente"
+        default:"Utente",
+        required:true,
     },
-    cart:{
+    myCart:{
         type:mongoose.Schema.Types.ObjectId,
         ref:Cart,
-        required:true,
+
     }
 });
 
 userSchema.pre('save', async function(next){
-    if(this.cart){
-        return next();
+    const user=this;
+    if(user.myCart){
+        next();
     }
     try{
         const newCart=await Cart.create({
             list:[]
         })
-        this.cart=newCart._id;
+        user.myCart=newCart._id;
+        next();
     }catch(e){
         next(e);
     }

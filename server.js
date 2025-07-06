@@ -15,7 +15,11 @@ app.use(express.json());
 app.use('/api/auth',authRoutes);
 
 
-dbCon().then(()=>app.listen(port, ()=>{console.log("Server started on port " + port)}))
+dbCon().then(()=>{
+    app.listen(port, ()=>{
+        console.log("Server started on port " + port)
+    })
+})
 
 
 

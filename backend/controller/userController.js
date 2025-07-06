@@ -121,7 +121,7 @@ async function refreshToken(req,res){ //da esportare
             //dal momento che è valido posso generare il nuovo accessToken
             const newAccessToken = jwt.sign(
                 { userId: decoded.userId },
-                process.env.ACCESS_TOKEN_SECRET,
+                process.env.LOGIN_TOKEN,
                 { expiresIn: '25m' }
             );
             res.json({ accessToken: newAccessToken });
