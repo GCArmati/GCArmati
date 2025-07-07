@@ -30,8 +30,9 @@ export const deleteComponent = async (req, res) => {
         if(!component){
             res.status(404).json({message: "Component not found"});
         }
+        // può andare bene? await Component.deleteOne({_id:req.params.id})
 
-        await Component.findByIdAndDelete(req.paramas.id);
+        await Component.findByIdAndDelete(req.params.id);
     }catch(error){
         console.log("Error in deleteComponent controller",error.message);
         res.status(500).json({message: "Server error", error: error.message});
