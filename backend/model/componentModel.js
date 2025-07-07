@@ -14,8 +14,11 @@ const componentSchema=new mongoose.Schema({
     },
     nameTag:{
         type:String,
+        lowercase:true,
         required:true,
-        unique:[true,'C\'è un componente con lo stesso nome nel DB']
+        trim:true,
+        unique:[true,'C\'è un componente con lo stesso nome nel DB'] //se c'è da prendere in considerazione il fattore amount si fa un
+        //altro tipo di controllo
     },
     /*
     amount:{

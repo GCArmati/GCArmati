@@ -7,7 +7,4 @@ router.post('/addToCart',addToCart)
 
 
 
-
-
-
 module.exports=router;
