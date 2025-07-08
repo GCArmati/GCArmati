@@ -1,4 +1,4 @@
-const Users =require("../model/userModel");
+const Users =require('../model/userModel')
 const RefreshToken=require("../model/tokenModel")
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -13,7 +13,7 @@ const generateTokens=(userID)=>{
 }
 
 //funzione per fare register con la create
-//nel body della richiesta ci deve essere username, password e email
+//nel body della richiesta ci deve essere username, password ed email
 async function register(req,res){
     //da vedere sto fatto di req.body
     const {username,password,email}=req.body;
@@ -177,8 +177,6 @@ async function userCreate(username,pw,userEmail){
 
 
 }
-
-
 
 
 module.exports={
