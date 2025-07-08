@@ -1,12 +1,16 @@
 //main in cui importo mongoose, il modello di studenti, collego il db e creo le funzioni legate all'html
 const express=require("express");
 const app=express();
+const cors = require('cors');
+
 const port=3000;
 const cookieParser=require('cookie-parser');
-const dbCon=require('./backend/controller/DBcontroller')
-const authRoutes=require("./backend/routes/authRoutes")
-const cartRoutes=require('./backend/routes/cartRoutes')
+const dbCon=require('./controller/DBcontroller')
+const authRoutes=require("./routes/authRoutes")
+const cartRoutes=require('./routes/cartRoutes')
 //parsing dei cookie
+app.use(cors());
+//risolvere i problemi di cors tra 5173 e 3000
 
 app.use(cookieParser());
 //Comunico con questo middleware a express di leggere il body delle richieste direttamente come file json
