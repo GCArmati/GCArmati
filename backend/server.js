@@ -1,20 +1,27 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import {connectDB} from './lib/connectDB.js';
-import authRoutes from './routes/auth.route.js'
-import componentRoutes from './routes/component.route.js';
+const express = require('express');
+const dotenv = require('dotenv').config();
+const cors = require('cors');
+const cookieParser=require('cookie-parser');
 
-dotenv.config();
+const dbCon = require('./controller/DBcontroller');
+const authRoutes = require('./routes/authRoutes');
+const componentRoutes = require('./routes/componentRoutes');
+const cartRoutes=require('./routes/cartRoutes')
 
 const app = express();
-const Port = process.env.PORT || 3000;
+app.use(cors()); //risolvere i problemi di cors tra 5173 e 3000
+app.use(cookieParser());
+
+const Port = process.env.PORT || 5000;
 
 app.use(express.json());
 
 app.use("api/auth", authRoutes);
-app.use("/api/components", componentRoutes);
+app.use("/api/component", componentRoutes);
+app.use("/api/cart", cartRoutes);
 
-app.listen(Port, () => {
-    connectDB();
-    console.log(`Server is running on: http://localhost:${Port}`);
+dbCon().then(()=>{
+    app.listen(Port, ()=>{
+        console.log(`Server is running on: http://localhost:${Port}`)
+    })
 })

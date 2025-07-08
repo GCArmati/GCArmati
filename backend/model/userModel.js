@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
-//const {isEmail} =require("validator");
-//const Cart=require('./cartModel')
+const mongoose=require("mongoose");
+const bcrypt=require("bcryptjs");
+const {isEmail} =require("validator");
+const Cart=require('./cartModel')
 
 
 const userSchema=new mongoose.Schema({
@@ -20,11 +20,11 @@ const userSchema=new mongoose.Schema({
     },
     email:{
         type:String,
-        //validate:[isEmail,"Inserire un'E-mail valida"],
+        validate:[isEmail,"Inserire un'E-mail valida"],
         required:[true,"Inserire un'E-mail"],
         unique:[true,"Esiste un account associato a questa E-mail"]
     },
-    /*createdAt:{
+    createdAt:{
         type:Date,
         overwriteImmutable:true,
         default:Date.now
@@ -32,20 +32,21 @@ const userSchema=new mongoose.Schema({
     updatedAt:{
         type:Date,
         default:Date.now
-    },*/
+    },
     role:{
         type:String,
-        enum: ['customer', 'admin'],
-        default:"costumer"
+        enum:["Utente","Admin"],
+        default:"Utente",
+        required:true,
     },
-    /*myCart:{
+    myCart:{
         type:mongoose.Schema.Types.ObjectId,
         ref:Cart,
 
-    }*/
-}, {timestamps:true});
+    }
+});
 
-/*userSchema.pre('save', async function(next){
+userSchema.pre('save', async function(next){
     const user=this;
     if(user.myCart){
         next();
@@ -59,7 +60,7 @@ const userSchema=new mongoose.Schema({
     }catch(e){
         next(e);
     }
-})*/
+})
 
 userSchema.pre("save",async function(next){
     if(!this.isModified('password')){
@@ -79,6 +80,4 @@ userSchema.methods.comparePassword=async function(candidatePw){
     return await bcrypt.compare(candidatePw,this.password);
 }
 
-const User = mongoose.model("User", userSchema);
-
-export default User;
+module.exports=mongoose.model("Utenti",userSchema);

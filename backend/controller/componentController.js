@@ -1,9 +1,9 @@
-import Component from '../models/Component.js'
+const Component = require('../model/componentModel');
 
 // function to create a component in db
-export const createComponent = async (req, res) => {
+async function createComponent(req, res){
     try{
-        const {name, description, price, category} = req.body;
+        const {name, description, price, category, imgUrl} = req.body;
 
         if(!name || !description || !price || !category){
             res.status(400).json({message: "All the fields are required"});
@@ -14,6 +14,7 @@ export const createComponent = async (req, res) => {
             description,
             price,
             category,
+            imgUrl,
         })
 
         res.status(200).json(component);
@@ -23,7 +24,7 @@ export const createComponent = async (req, res) => {
     }
 }
 
-export const deleteComponent = async (req, res) => {
+async function deleteComponent(req, res){
     try{
         const component = await Component.findById(req.params.id);
 
@@ -39,7 +40,7 @@ export const deleteComponent = async (req, res) => {
     }
 }
 
-export const getComponentsByCategory = async (req, res) => {
+async function getComponentsByCategory(req, res) {
     const {category} = req.params;
     try{
         const components = await Component.find({category});
@@ -48,4 +49,10 @@ export const getComponentsByCategory = async (req, res) => {
         console.log("Error in getComponentsByCategory controller", error.message);
         res.status(500).json({message: "Server error", error: error.message});
     }
+}
+
+module.exports = {
+    createComponent,
+    deleteComponent,
+    getComponentsByCategory,
 }

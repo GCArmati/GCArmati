@@ -1,40 +1,42 @@
-import User from '../models/User.js';
-import RefreshToken from '../models/Token.js';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-
-dotenv.config();
+const Users =require('../model/userModel')
+const RefreshToken=require("../model/tokenModel")
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 //creo una funzione che genera due tokens
 const generateTokens=(userID)=>{
+    //token che verrà inserito nel cookie e che verrà aggiornato in un periodo di tempo ristretto
     const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
+    //token che verrà inserito nel DB e che verrà aggiornato in un periodo di tempo ampio
     const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
     return  {accessToken,refreshToken};
 }
 
-
-//funzione per fare register con la create
-//nel body della richiesta ci deve essere username, password e email
-export const register = async (req,res) => {
-    //da vedere sto fatto di req.body
-    const {username,password,email} = req.body;
+//funzione per fare registrare un account
+//nel body della richiesta ci deve essere username, password ed email
+async function register(req,res){
+    const {username,password,email}=req.body;
     try{
-        const emailExisting=await User.findOne({
+        const emailExisting=await Users.findOne({
             email: email
         });
+
         if(emailExisting)return res.status(400).json({error:"Email già in uso"});
-        const existing=await User.findOne({
+        const existing=await Users.findOne({
             userName: username
         });
+
         if(existing)return res.status(400).json({error:"Username già in uso: "});
 
         const errore= await userCreate(username,password,email);
+
         if(errore){
             res.status(500).json({message:"Errore interno"})
         }
         else{
             res.status(201).json({message:"Registrazione completata"})
         }
+
     }catch(err){
         //lo so che in console non mi serve a una ciola (forse)
         console.error(err);
@@ -45,15 +47,16 @@ export const register = async (req,res) => {
 
 //funzione di login che sfrutta le funzioni per generare tokens
 //nel body della richiesta ci deve essere email e password
-export const login = async (req,res) =>{
-
+async function login(req,res){
     const email=req.body.email;
     const password=req.body.password;
+
     try{
         if(!email||!password){
             return res.status(400).json({message:"Email e password sono obbligatori"})
         }
         const user=await Users.findOne({email:email})
+
         if(!user) return res.status(400).json({error:"Utente non trovato"})
 
         const valid= await user.comparePassword(password)
@@ -72,6 +75,7 @@ export const login = async (req,res) =>{
             sameSite: 'Strict',     // Aiuta a prevenire CSRF
             maxAge:  6* 24 * 60 * 60 * 1000 // 6 giorni (come la scadenza del token)
         });
+
         // Invia l'access token nel corpo della risposta
         res.json({
             message: "Login effettuato con successo!",
@@ -85,9 +89,8 @@ export const login = async (req,res) =>{
 }
 
 
-export const refreshToken = async (req,res) =>{ //da esportare
+async function refreshToken(req,res){ //da esportare
     const cookies=req.cookies;
-
     //controllo con il CHAINING OPERATOR ?. Serve a evitare errori nel caso
     //l'oggetto prima del punto (cookies) sia null o undefined
     //if(!cookies.jwt) errore se cookies è undefined
@@ -131,12 +134,14 @@ export const refreshToken = async (req,res) =>{ //da esportare
 }
 
 
-export const logout = async (req,res) =>{ //da esportare
+async function logout(req,res){
     const cookies=req.cookies;
+
     if(!cookies?.jwt){
         return res.sendStatus(204);
     }//Nessun cookie da rimuovere per l'utente
     const refreshTokenFromCookie=cookies.jwt;
+
     try{
         await RefreshToken.deleteOne({
             token:refreshTokenFromCookie
@@ -147,6 +152,7 @@ export const logout = async (req,res) =>{ //da esportare
             secure:process.env.NODE_ENV,
             sameSite:"strict",
         })
+
         res.status(200).json({message:'Logout effettuato con successo.'})
     }catch(e){
         console.error("Errore durante il logout: "+e);
@@ -154,11 +160,10 @@ export const logout = async (req,res) =>{ //da esportare
     }
 }
 
-
 //funzione per creare un utente dando in pasto username e password,
 async function userCreate(username,pw,userEmail){
     try{
-        const user=await User.create({
+        const user=await Users.create({
             userName:username,
             password:pw,
             email:userEmail,
@@ -170,3 +175,11 @@ async function userCreate(username,pw,userEmail){
         return err;
     }
 }
+
+
+module.exports={
+    refreshToken,
+    logout,
+    register,
+    login,
+};

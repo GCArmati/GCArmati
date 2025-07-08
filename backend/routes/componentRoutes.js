@@ -1,6 +1,6 @@
-import express from 'express';
-import {createComponent, deleteComponent, getComponentsByCategory} from '../controllers/component.controller.js'
-import {protectRoute, adminRoute} from '../middlewares/autorizzazione.middleware.js'
+const express = require('express');
+const {createComponent, deleteComponent, getComponentsByCategory} = require('../controller/componentController')
+const {protectRoute, adminRoute} = require('../middleware/authMiddleware')
 
 const router = express.Router();
 
@@ -13,4 +13,4 @@ router.delete('/delete/:id', deleteComponent);
 //GET /api/component/category/:category
 router.get("/category/:category", getComponentsByCategory);
 
-export default router;
+module.exports = router;
