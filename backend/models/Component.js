@@ -5,7 +5,13 @@ const componentSchema = new mongoose.Schema({
         type: String,
         required: [true, "Name is required"],
     },
+    imgUrl:{
+        type:String,
+        required:true,
+        //mettere errore
+    },
     description: {
+        //statica
         type: String,
         required: [true, "Description is required"],
     },
