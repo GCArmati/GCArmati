@@ -20,9 +20,13 @@
   },
   "homepage": "https://github.com/GCArmati/GCArmati#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
-    "mongoose": "^8.16.1"
+    "http": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.1",
+    "validator": "^13.15.15"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
