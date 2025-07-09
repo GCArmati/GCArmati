@@ -9,7 +9,10 @@ const dbCon=require('./controller/DBcontroller')
 const authRoutes=require("./routes/authRoutes")
 const cartRoutes=require('./routes/cartRoutes')
 //parsing dei cookie
-app.use(cors());
+app.use(cors({
+    origin:'http://localhost:5173',
+    credentials:true
+}));
 //risolvere i problemi di cors tra 5173 e 3000
 
 app.use(cookieParser());

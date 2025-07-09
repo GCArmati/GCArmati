@@ -1,9 +1,6 @@
 const express = require('express');
 const {register,login,refreshToken,logout}=require('../controller/userController')
-const {verify} = require("jsonwebtoken");
-const {verifyToken} = require("../middleware/authMiddleware");
-
-
+const {verifyToken} = require("../middleware/authMiddleware")
 //uso router perchè provo piacere nel vedere Salvini che soffre
 const router = express.Router();
 
@@ -22,7 +19,7 @@ router.post('/refresh',refreshToken);
 //POST /api/auth/logout
 //per fare logout deve avere un refreshToken valido
 //è sufficiente far apparire la funzione di logout solo fin quando persiste il token nel DB (Dragon Ball)
-router.post('/logout',verifyToken, logout);
+router.post('/logout', logout);
 
 
 module.exports=router;
