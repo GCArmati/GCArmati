@@ -70,7 +70,6 @@ async function removeFromCart(req,res){
     }
 }
 
-
 async function getCart(req,res){
 
     try{
@@ -94,5 +93,11 @@ async function getCart(req,res){
         console.error(e);
         res.status(500).json({message:"Errore Interno, riprovare più tardi"})
     }
+}
+
+module.exports={
+    addToCart,
+    removeFromCart,
+    getCart
 }
 

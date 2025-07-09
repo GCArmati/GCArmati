@@ -2,7 +2,7 @@
 const express=require("express");
 const app=express();
 const cors = require('cors');
-
+const {verifyToken}=require("./middleware/authMiddleware")
 const port=3000;
 const cookieParser=require('cookie-parser');
 const dbCon=require('./controller/DBcontroller')
