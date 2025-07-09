@@ -4,11 +4,11 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 //creo una funzione che genera due tokens
-const generateTokens=(userID)=>{
+const generateTokens=(userID, userROLE)=>{
     //token che verrà inserito nel cookie e che verrà aggiornato in un periodo di tempo ristretto
-    const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
+    const accessToken=jwt.sign({userId:userID, userRole:userROLE},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
     //token che verrà inserito nel DB e che verrà aggiornato in un periodo di tempo ampio
-    const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
+    const refreshToken=jwt.sign({userId:userID, userRole:userROLE},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
     return  {accessToken,refreshToken};
 }
 
@@ -55,17 +55,18 @@ async function login(req,res){
         if(!email||!password){
             return res.status(400).json({message:"Email e password sono obbligatori"})
         }
-        const user=await Users.findOne({email:email})
+        const user=await Users.findOne({email: email})
 
         if(!user) return res.status(400).json({error:"Utente non trovato"})
 
         const valid= await user.comparePassword(password)
         if(!valid) return res.status(401).json({error:"Password Errata. Login Non effettuato."})
 
-        const {accessToken,refreshToken}=generateTokens(user._id);
+        const {accessToken,refreshToken}=generateTokens(user._id, user.role);
         await RefreshToken.create({
             token:refreshToken,
             userId:user._id,
+            userRole: user.role
         });
 
         //salva refresh token
@@ -121,7 +122,7 @@ async function refreshToken(req,res){ //da esportare
             }
             //dal momento che è valido posso generare il nuovo accessToken
             const newAccessToken = jwt.sign(
-                { userId: decoded.userId },
+                { userId: decoded.userId, userRole: decoded.userRole },
                 process.env.LOGIN_TOKEN,
                 { expiresIn: '25m' }
             );
@@ -166,7 +167,7 @@ async function userCreate(username,pw,userEmail){
         const user=await Users.create({
             userName:username,
             password:pw,
-            email:userEmail,
+            email:userEmail
         })
         console.log("Utente creato");
         console.log(user)

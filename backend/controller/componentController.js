@@ -1,4 +1,5 @@
 const Component = require('../model/componentModel');
+const Users =require('../model/userModel')
 
 // function to create a component in db
 async function createComponent(req, res){

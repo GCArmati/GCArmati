@@ -24,15 +24,6 @@ const userSchema=new mongoose.Schema({
         required:[true,"Inserire un'E-mail"],
         unique:[true,"Esiste un account associato a questa E-mail"]
     },
-    createdAt:{
-        type:Date,
-        overwriteImmutable:true,
-        default:Date.now
-    },
-    updatedAt:{
-        type:Date,
-        default:Date.now
-    },
     role:{
         type:String,
         enum:["Utente","Admin"],
@@ -42,9 +33,8 @@ const userSchema=new mongoose.Schema({
     myCart:{
         type:mongoose.Schema.Types.ObjectId,
         ref:Cart,
-
     }
-});
+}, {timestamps: true});
 
 userSchema.pre('save', async function(next){
     const user=this;
