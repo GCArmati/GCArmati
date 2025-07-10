@@ -1,4 +1,5 @@
 const jwt=require('jsonwebtoken')
+const Users =require('../model/userModel')
 
 //questo servirà solo nelle varie funzioni della logica della pagina
 function verifyToken(req,res,next){
@@ -10,14 +11,14 @@ function verifyToken(req,res,next){
 
     const token=authHeader.split(' ')[1]; //prende la prima parte separata dopo "Bearer "
 
-    jwt.verify(token,process.env.LOGIN_TOKEN, async (err,decoded)=>{
+    jwt.verify(token,process.env.LOGIN_TOKEN, (err,decoded)=>{
         if(err){
             console.error('Errore nel verifica jwt: ',err.name, err.message);
-            res.status(401).json({message:"Errore durante la verifica del token. Riprovare."});
+            return res.status(403).json({message:'Proibito: Token non valido o scaduto'})
         }
         req.user = {
             id: decoded.userId,
-            role: decoded.userRole //da aggiustare nella creazione del token
+            role: decoded.userRole,
         }
         next();
     })
