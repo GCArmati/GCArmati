@@ -5,9 +5,9 @@ require('dotenv').config();
 
 //creo una funzione che genera due tokens
 
-const generateTokens=(userID)=>{
-    const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
-    const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
+const generateTokens=(userID,userRole)=>{
+    const accessToken=jwt.sign({userId:userID,userRole:userRole},process.env.LOGIN_TOKEN,{expiresIn:"3m"});
+    const refreshToken=jwt.sign({userId:userID,userRole:userRole},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
     return  {accessToken,refreshToken};
 
 }
@@ -61,7 +61,7 @@ async function login(req,res){
         const valid= await user.comparePassword(password)
         if(!valid) return res.status(401).json({error:"Password Errata. Login Non effettuato."})
 
-        const {accessToken,refreshToken}=generateTokens(user._id);
+        const {accessToken,refreshToken}=generateTokens(user._id,user.role);
         await RefreshToken.create({
             token:refreshToken,
             userId:user._id,
@@ -110,12 +110,13 @@ async function refreshToken(req,res){ //da esportare
             //può succedere infatti di trovarlo nel cookie ma non nel DB, molto male amigo
             // può voler dire che è scaduto o compromesso, quindi gli chiedo il login
             // (TODO login)
-            return res.status(403).json({ message: "Proibito: Refresh token non valido o scaduto." });
+            return res.status(403).json({ message: "Proibito: Refresh token non valido o scaduto. Effettuare il login nuovamente" });
         }
 
         jwt.verify(refreshTokenFromCookie,process.env.REFRESH_TOKEN,async(err,decoded)=>{
             if(err || foundToken.userId.toString()!== decoded.userId ) {
                 // Se la verifica fallisce o l'ID utente nel token non corrisponde a quello nel DB
+                //(TODO login)
                 return res.status(403).json({ message: "Proibito: Refresh token non valido o scaduto. Effettuare il login nuovamente." });
             }
             //dal momento che è valido posso generare il nuovo accessToken

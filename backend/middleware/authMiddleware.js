@@ -16,9 +16,6 @@ function verifyToken(req,res,next){
             console.error('Errore nel verifica jwt: ',err.name, err.message);
             await refreshTokenFetch(); //se il refresh token è valido allora tutto bene, altrimenti se c'è un errore bisogna
             //rifare login
-
-
-
         }
         req.user = {
             id: decoded.userId,

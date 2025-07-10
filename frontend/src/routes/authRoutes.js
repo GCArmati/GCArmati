@@ -1,5 +1,4 @@
-require('dotenv').config()
-const url=process.env.API_URL
+const url="http://localhost:3000"
 
 async function register(email, password, username) {
     try {
