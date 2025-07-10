@@ -23,7 +23,7 @@ const componentSchema = new mongoose.Schema({
     category: {
         type: String,
         required: [true, "Category is required"],
-        enum: ['processor','motherboard','cpu-cooler','case','graphics card','ram','storage','case-cooler','power-supply']
+        enum: ['processor','motherboard','cpu-cooler','case','graphics-card','ram','storage','case-cooler','power-supply']
     }
 }, {timestamps: true});
 

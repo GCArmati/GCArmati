@@ -52,8 +52,34 @@ async function getComponentsByCategory(req, res) {
     }
 }
 
+async function modifyPrice(req, res){
+    try{
+        const component = await Component.findById(req.params.id);
+        const {price} = req.body;
+
+        if(!component){
+            res.status(404).json({message: "Component not found"});
+        }
+
+        if(price<0){
+            res.status(400).json({message: "Price value not valid"});
+        }
+
+        component.price = price;
+
+        const componentUpdate = await component.save();
+
+        res.status(200).json(componentUpdate);
+
+    }catch(error){
+        console.log("Error in modifyPrice controller", error.message);
+        res.status(500).json({message: "Server error", error: error.message});
+    }
+}
+
 module.exports = {
     createComponent,
     deleteComponent,
     getComponentsByCategory,
+    modifyPrice
 }

@@ -24,7 +24,7 @@ const userSchema=new mongoose.Schema({
         required:[true,"Inserire un'E-mail"],
         unique:[true,"Esiste un account associato a questa E-mail"]
     },
-    role:{
+    role:{ // lo inseriremo manualmente per i nostri 4 account Admin
         type:String,
         enum:["Utente","Admin"],
         default:"Utente",
