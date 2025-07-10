@@ -41,7 +41,7 @@ async function login(email,password){
     }
 }
 
-async function refreshToken(){
+async function refreshTokenFetch(){
     try{
         const response=await fetch(`${url}api/auth/refresh`,{
             method:'POST',
@@ -52,8 +52,6 @@ async function refreshToken(){
         if(data.accessToken){
             localStorage.setItem('accessToken',data.accessToken)
         }
-        return data;
-
     }catch(e){
         console.error("Errore in fase di refresh token: ",e);
         throw e;
@@ -72,4 +70,8 @@ async function logout(){
         console.error("Errore in fase di refresh token: ",e);
         throw e;
     }
+}
+
+module.exports={
+    refreshTokenFetch
 }

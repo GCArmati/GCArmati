@@ -116,7 +116,7 @@ async function refreshToken(req,res){ //da esportare
         jwt.verify(refreshTokenFromCookie,process.env.REFRESH_TOKEN,async(err,decoded)=>{
             if(err || foundToken.userId.toString()!== decoded.userId ) {
                 // Se la verifica fallisce o l'ID utente nel token non corrisponde a quello nel DB
-                return res.status(403).json({ message: "Proibito: Refresh token non valido o scaduto." });
+                return res.status(403).json({ message: "Proibito: Refresh token non valido o scaduto. Effettuare il login nuovamente." });
             }
             //dal momento che è valido posso generare il nuovo accessToken
             const newAccessToken = jwt.sign(
