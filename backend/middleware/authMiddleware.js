@@ -1,5 +1,4 @@
 const jwt=require('jsonwebtoken')
-const {refreshTokenFetch}=require('../../frontend/src/routes/authRoutes')
 
 //questo servirà solo nelle varie funzioni della logica della pagina
 function verifyToken(req,res,next){
@@ -14,8 +13,7 @@ function verifyToken(req,res,next){
     jwt.verify(token,process.env.LOGIN_TOKEN, async (err,decoded)=>{
         if(err){
             console.error('Errore nel verifica jwt: ',err.name, err.message);
-            await refreshTokenFetch(); //se il refresh token è valido allora tutto bene, altrimenti se c'è un errore bisogna
-            //rifare login
+            res.status(401).json({message:"Errore durante la verifica del token. Riprovare."});
         }
         req.user = {
             id: decoded.userId,

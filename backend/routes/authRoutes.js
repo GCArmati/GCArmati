@@ -19,7 +19,7 @@ router.post('/refresh',refreshToken);
 //POST /api/auth/logout
 //per fare logout deve avere un refreshToken valido
 //è sufficiente far apparire la funzione di logout solo fin quando persiste il token nel DB (Dragon Ball)
-router.post('/logout', logout);
+router.post('/logout',verifyToken, logout);
 
 
 module.exports=router;

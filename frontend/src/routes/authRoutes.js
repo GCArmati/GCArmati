@@ -1,6 +1,6 @@
-const url="http://localhost:3000"
+const url=import.meta.env.VITE_API_URL;
 
-async function register(email, password, username) {
+export async function register(email, password, username) {
     try {
         const response = await fetch(`${url}api/auth/register`, {
             method: 'POST',
@@ -22,7 +22,7 @@ async function register(email, password, username) {
     }
 }
 
-async function login(email,password){
+export async function login(email,password){
     try{
         const response=await fetch(`${url}api/auth/login`,{
             method:'POST',
@@ -40,7 +40,7 @@ async function login(email,password){
     }
 }
 
-async function refreshTokenFetch(){
+export async function refreshTokenFetch(){
     try{
         const response=await fetch(`${url}api/auth/refresh`,{
             method:'POST',
@@ -58,7 +58,7 @@ async function refreshTokenFetch(){
 
 }
 
-async function logout(){
+export async function logout(){
     try{
         const response=await fetch(`${url}api/auth/logout`,{
             method:'POST',
@@ -71,6 +71,3 @@ async function logout(){
     }
 }
 
-module.exports={
-    refreshTokenFetch
-}

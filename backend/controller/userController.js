@@ -6,7 +6,7 @@ require('dotenv').config();
 //creo una funzione che genera due tokens
 
 const generateTokens=(userID,userRole)=>{
-    const accessToken=jwt.sign({userId:userID,userRole:userRole},process.env.LOGIN_TOKEN,{expiresIn:"3m"});
+    const accessToken=jwt.sign({userId:userID,userRole:userRole},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
     const refreshToken=jwt.sign({userId:userID,userRole:userRole},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
     return  {accessToken,refreshToken};
 
