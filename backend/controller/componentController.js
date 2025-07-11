@@ -1,7 +1,7 @@
 const Component = require('../model/componentModel');
 const Users =require('../model/userModel')
 
-// function to create a component in db
+// funzione per creare un componente
 async function createComponent(req, res){
     try{
         const {name, description, price, category, imgUrl} = req.body;
@@ -25,6 +25,7 @@ async function createComponent(req, res){
     }
 }
 
+// funzione per rimuovere un componente
 async function deleteComponent(req, res){
     try{
         const component = await Component.findById(req.params.id);
@@ -41,6 +42,7 @@ async function deleteComponent(req, res){
     }
 }
 
+// funzione per ottenere una lista di componenti in base alla loro categoria
 async function getComponentsByCategory(req, res) {
     const {category} = req.params;
     try{
@@ -52,6 +54,7 @@ async function getComponentsByCategory(req, res) {
     }
 }
 
+// funzione per modificare il prezzo di un componente
 async function modifyPrice(req, res){
     try{
         const component = await Component.findById(req.params.id);
@@ -67,9 +70,9 @@ async function modifyPrice(req, res){
 
         component.price = price;
 
-        const componentUpdate = await component.save();
+        await component.save();
 
-        res.status(200).json(componentUpdate);
+        res.status(200).json(component);
 
     }catch(error){
         console.log("Error in modifyPrice controller", error.message);

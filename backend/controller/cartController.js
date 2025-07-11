@@ -70,7 +70,6 @@ async function removeFromCart(req,res){
     }
 }
 
-
 async function getCart(req,res){
 
     try{
@@ -96,8 +95,49 @@ async function getCart(req,res){
     }
 }
 
-module.exports = {
+async function decreaseAmount(req,res){
+    const {componentId}=req.body;
+    const userId=req.userId; //da verifyToken
+    const user=await User.findById(userId);
+    const userCartId=user.myCart;
+    const userCart=await Cart.findById(userCartId);
+    const itemToDecrease=userCart.componentsList.find(item=>item.componentElement===componentId);
+    if(itemToDecrease.amount===1){
+        userCart.componentsList.filter(item=>item.componentElement!==componentId); //lo toglie dalla lista
+        await userCart.save();
+        res.status(200).json({
+            message:"Componente rimosso dal carrello.",
+            cart:userCart
+        })
+    }else{
+        itemToDecrease.amount-=1;
+        await userCart.save();
+        res.status(200).json({
+            message:"Ne rimangono "+itemToDecrease.amount+" nel carrello dell'utente.",
+            cart:userCart
+        })
+    }
+}
+
+async function increaseAmount(req,res){
+    const {componentId}=req.body;
+    const userId=req.userId; //da verifyToken
+    const user=await User.findById(userId);
+    const userCartId=user.myCart;
+    const userCart=await Cart.findById(userCartId);
+    const itemToIncrease=userCart.componentsList.find(item=>item.componentElement===componentId);
+    itemToIncrease.amount+=1;
+    await userCart.save();
+    res.status(200).json({
+        message:"Componente aggiunto correttamente.",
+        cart:userCart
+    })
+}
+
+module.exports={
     addToCart,
     removeFromCart,
-    getCart
+    getCart,
+    decreaseAmount,
+    increaseAmount
 }
