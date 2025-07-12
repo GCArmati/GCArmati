@@ -1,5 +1,6 @@
 import Card from "./Card";
-import Header from "./Header";
+import './Home.css'
+
 
 
 export default function Home(){
@@ -12,7 +13,6 @@ export default function Home(){
 
     return (
         <>
-            <Header></Header>
             <Card></Card>
             <Card></Card>
             <Card></Card>

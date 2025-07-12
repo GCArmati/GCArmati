@@ -1,22 +1,11 @@
 img{
-    width:350px;
+    width:300px;
     height:auto;
     border-radius: 10px;
 }
-
-.generale{
-    background-color: #1E1F22;
-    border-radius: 10px;
-    border:5px solid black;
-    margin:10px;
-
-}
-body{
-
-}
-.info{
+#cardContainer1{
+    background-color: #9de4cb;
+    margin-left:30px !important;
     display:flex;
-    flex-direction: row;
-
-
+    flex-direction: column;
 }
