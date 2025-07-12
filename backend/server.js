@@ -12,7 +12,10 @@ const app = express();
 
 const Port = process.env.PORT || 5000;
 
-app.use(cors()); //risolvere i problemi di cors tra 5173 e 3000
+app.use(cors({
+    origin: 'http://localhost:5174',
+    credentials: true
+}));
 app.use(cookieParser());
 
 app.use(express.json());

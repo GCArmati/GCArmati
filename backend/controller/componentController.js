@@ -80,9 +80,20 @@ async function modifyPrice(req, res){
     }
 }
 
+async function getAllComponents(req, res){
+    try{
+        const components = await Component.find({});
+        res.json(components);
+    }catch(error){
+        console.log("Error in getAllComponents controller", error.message);
+        res.status(500).json({message: "Server error", error: error.message});
+    }
+}
+
 module.exports = {
     createComponent,
     deleteComponent,
     getComponentsByCategory,
-    modifyPrice
+    modifyPrice,
+    getAllComponents
 }

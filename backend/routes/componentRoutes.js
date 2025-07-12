@@ -1,5 +1,5 @@
 const express = require('express');
-const {createComponent, deleteComponent, getComponentsByCategory, modifyPrice} = require('../controller/componentController')
+const {createComponent, deleteComponent, getComponentsByCategory, modifyPrice, getAllComponents} = require('../controller/componentController')
 const {adminRoute, verifyToken} = require('../middleware/authMiddleware')
 
 const router = express.Router();
@@ -9,6 +9,10 @@ router.post('/create',verifyToken, adminRoute ,createComponent);
 
 //DELETE /api/component/delete/:id - only Admin
 router.delete('/delete/:id', verifyToken, adminRoute, deleteComponent);
+
+//GET /api/component/getAll
+//router.get('/getAll', verifyToken, adminRoute, getAllComponents);
+router.get('/getAll', getAllComponents);
 
 //GET /api/component/category/:category
 router.get("/category/:category", getComponentsByCategory);
