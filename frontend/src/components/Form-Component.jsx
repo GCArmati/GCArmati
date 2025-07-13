@@ -27,12 +27,6 @@ export default function FormComponent(){
             price: formData.prezzo,
             category: formData.categoria,
         };
-        try {
-            await create(component);
-            alert("Dati salvati con successo!");
-        } catch (error) {
-            alert("Errore nel salvataggio.");
-        }
         setFormData({
             nome: "",
             imgUrl: "",
@@ -40,7 +34,12 @@ export default function FormComponent(){
             prezzo: 0,
             categoria: "",
         });
-        console.log(formData);
+        try {
+            await create(component);
+            alert("Dati salvati con successo!");
+        } catch (error) {
+            alert("Errore nel salvataggio.");
+        }
     }
 
     return(
@@ -52,6 +51,7 @@ export default function FormComponent(){
                     type="text"
                     name="nome"
                     onChange={handleInput}
+                    value={formData.nome}
                 />
             </div>
             <div>
@@ -61,6 +61,7 @@ export default function FormComponent(){
                     required
                     name={"imgUrl"}
                     onChange={handleInput}
+                    value={formData.imgUrl}
                 />
             </div>
             <div>
@@ -70,6 +71,7 @@ export default function FormComponent(){
                     rows="10"
                     name="descrizione"
                     onChange={handleInput}
+                    value={formData.descrizione}
                 >
                 </textarea>
             </div>
@@ -81,11 +83,12 @@ export default function FormComponent(){
                     required
                     name={"prezzo"}
                     onChange={handleInput}
+                    value={formData.prezzo}
                 />
             </div>
             <div>
                 <label>Categoria:</label>
-                <select name="categoria" required onChange={handleInput}>
+                <select name="categoria" required onChange={handleInput} value={formData.categoria}>
                     <option value=""></option>
                     <option value={"processor"}>Processor</option>
                     <option value={"motherboard"}>Motherboard</option>
