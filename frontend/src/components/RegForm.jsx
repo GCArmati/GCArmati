@@ -9,7 +9,8 @@ export default function RegForm(){
     const [password,setPassword]=useState('');
     async function handleSubmit(e){
         e.preventDefault();
-        const response=await register(email,password,name); //già parsati praticamente
+        const data=await register(email,password,name); //già parsati praticamente
+        alert(data.message);
 
         setName('');
         setEmail('');

@@ -60,7 +60,7 @@ async function customFetch(url, options = {}) { //pensata per richiedere accessT
 }
 export async function register(email, password, username) {
     try {
-        const response = await fetch(`${url}api/auth/register`, {
+        const response = await fetch(`http://localhost:3000/api/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ export async function register(email, password, username) {
 
 export async function login(email,password){
     try{
-        const response=await fetch(`${url}api/auth/login`,{
+        const response=await fetch(`http://localhost:3000/api/auth/login`,{
             method:'POST',
             headers:{
                 "Content-Type":"application/json"
@@ -98,10 +98,10 @@ export async function login(email,password){
         throw err;
     }
 }
-
+/*
 export async function refreshTokenFetch(){
     try{
-        const response=await fetch(`${url}api/auth/refresh`,{
+        const response=await fetch(`http://localhost:3000/api/auth/refresh`,{
             method:'POST',
             credentials:'include',
 
@@ -116,10 +116,10 @@ export async function refreshTokenFetch(){
         throw e;
     }
 }
-
+*/
 export async function logout(){
     try{
-        const response=await customFetch(`${url}api/auth/logout`,{
+        const response=await customFetch(`http://localhost:3000/api/auth/logout`,{
             method:'POST',
             credentials:'include',
         });

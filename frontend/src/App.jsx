@@ -5,6 +5,7 @@ import Footer from "./components/Footer.jsx";
 import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
 
+
 function App() {
     return (
     <div className={"d-flex flex-column min-vh-100"}>

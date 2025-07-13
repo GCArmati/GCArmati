@@ -8,7 +8,7 @@ export default function Navbar(){
             <div className={"row"}>
                 <div className={"col-auto"}><Link to="/">Home</Link></div>
                 <div className={"col-auto"}><Link to="/dashboard">Dashboard</Link> {/*TODO Da inserire poi modifica Lucia*/}</div>
-                <div className={"col-auto"}><Link to="/login">Login</Link></div>
+                <div className={"col-auto"}><Link to="/register">Register</Link></div>
                 <div className={"col-auto"}><Link to="/cart">Cart</Link></div>
             </div>
 
