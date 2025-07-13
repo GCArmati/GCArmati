@@ -1,0 +1,7 @@
+#superContainerL{
+    display:grid;
+    grid-template-columns:20vw 60vw 20vw;
+    height:40vh;
+
+}
+

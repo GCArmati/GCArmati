@@ -1,0 +1,22 @@
+#navbar-container .col-auto {
+    border: 1px solid #b2f7ef;
+    border-radius: 10px;
+    background-color: #1E1F22;
+}
+
+#navbar-container .row {
+    display: flex;
+    gap: 10px;
+}
+
+/*la a sono in link*/
+#navbar-container a {
+    color: #b2f7ef;
+    text-decoration: none;   /*tMI LEVA LA SOTTOLINEATURA*/
+}
+
+/* Centra verticalmente titolo e navbar nella row */
+header .row {
+    display: flex;
+    align-items: center;
+}

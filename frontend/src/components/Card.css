@@ -1,0 +1,20 @@
+img{
+    width:300px;
+    height:auto;
+    border-radius: 10px;
+}
+#cardContainer1{
+    background-color: #2E2F32;
+    border-radius: 10px;
+    margin-left:30px !important;
+    display:flex;
+    flex-direction: column;
+}
+
+h1{
+    color: white;
+}
+
+p {
+    color: white;
+}
