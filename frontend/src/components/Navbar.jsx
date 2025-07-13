@@ -10,12 +10,6 @@ export default function Navbar(){
                 <div className={"col-xxl-2"}><Link to="/login">Login</Link></div>
                 <div className={"col-xxl-3"}><Link to="/cart">Cart</Link></div>
             </div>
-
-
-
-
-
-
         </div>
     )
 }

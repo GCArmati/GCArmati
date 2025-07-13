@@ -10,7 +10,7 @@ export default function ComponentList(){
     useEffect(()=> {
         const fetchData = async () => {
             try {
-                const data = await getAll(); // ⚠️ devi usare await se getAll è una fetch
+                const data = await getAll();
                 setComponents(data);
             } catch (err) {
                 console.error("Errore nel recupero componenti:", err);
@@ -22,7 +22,7 @@ export default function ComponentList(){
     return(
         <>
             {components.map((component) => (
-                <Card2 key={component._id}
+                <Card2 key={component.id}
                        nome={component.name}
                        imgURL={component.imgUrl}
                        descrizione={component.description}
@@ -30,12 +30,12 @@ export default function ComponentList(){
                 >
                 </Card2>
             ))}
-            <Card2
+            {/*<Card2
                 nome={components.nome}
                 imgURL={components.imgURL}
                 descrizione={components.descrizione}
                 prezzo={components.prezzo}
-            ></Card2>
+            ></Card2>*/}
         </>
     )
 }

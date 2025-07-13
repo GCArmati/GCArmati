@@ -5,7 +5,8 @@ const {adminRoute, verifyToken} = require('../middleware/authMiddleware')
 const router = express.Router();
 
 //POST /api/component/create - only Admin
-router.post('/create',verifyToken, adminRoute ,createComponent);
+//router.post('/create',verifyToken, adminRoute ,createComponent);
+router.post('/create', createComponent);
 
 //DELETE /api/component/delete/:id - only Admin
 router.delete('/delete/:id', verifyToken, adminRoute, deleteComponent);

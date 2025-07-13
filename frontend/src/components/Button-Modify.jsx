@@ -1,4 +1,4 @@
-export default function ButtonPrezzo(){
+export default function ButtonModify(){
     return(
         <>
             <button className={"btn btn-primary"}>

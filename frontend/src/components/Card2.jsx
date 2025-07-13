@@ -1,7 +1,8 @@
 import './Card.css'
-import ButtonPrezzo from './ButtonPrezzo.jsx'
+import ButtonModify from './Button-Modify.jsx'
+import ButtonDelete from './Button-Delete.jsx'
 
-export default function Card2({nome,imgURL,descrizione,prezzo,componentID}){
+export default function Card2({nome, imgURL, descrizione, prezzo}){
 
     return(
         <div id="cardContainer1" className={"container-xl border p-3 m-3 rounded border-black"}>
@@ -18,7 +19,8 @@ export default function Card2({nome,imgURL,descrizione,prezzo,componentID}){
                 <div className="col-3 col-md-3 ">
                     <p>Prezzo</p>
                     <p>{prezzo}</p>
-                    <ButtonPrezzo></ButtonPrezzo>
+                    <ButtonModify></ButtonModify>
+                    <ButtonDelete></ButtonDelete>
                 </div>
             </div>
         </div>
