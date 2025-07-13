@@ -29,7 +29,7 @@ async function register(req,res){
 
        const errore= await userCreate(username,password,email);
        if(errore){
-           res.status(500).json({message:"Errore interno"})
+           res.status(500).json({message:"Errore nella creazione del profilo. Riprovare più tardi"})
        }
        else{
            res.status(201).json({message:"Registrazione completata"})
@@ -59,7 +59,7 @@ async function login(req,res){
 
 
         const valid= await user.comparePassword(password)
-        if(!valid) return res.status(401).json({error:"Password Errata. Login Non effettuato."})
+        if(!valid) return res.status(401).json({error:"Password Errata. Register Non effettuato."})
 
         const {accessToken,refreshToken}=generateTokens(user._id,user.role);
         await RefreshToken.create({
@@ -76,7 +76,7 @@ async function login(req,res){
         });
         // Invia l'access token nel corpo della risposta
         res.json({
-            message: "Login effettuato con successo!",
+            message: "Register effettuato con successo!",
             accessToken
         });
     }catch(err){
