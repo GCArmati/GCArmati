@@ -25,3 +25,18 @@
     margin-top:30px;
     margin-inline: 15px;
 }
+
+#testoSup{
+    color:#9de4cb;
+    text-align:center;
+    margin-top:20px;
+    margin-bottom: -20px;
+    font-size:1.3em;
+
+}
+#testoInf {
+    font-size: 1.1em;
+    font-family: "Harlow Solid Italic", serif;
+    margin-left:20px;
+    margin-top:15px;
+}
