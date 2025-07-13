@@ -10,7 +10,7 @@ export default function Login(){
     async function handleSubmit(e){
         e.preventDefault();
         const response=await login(email,password);
-        //if
+        alert(response.message)
 
         setEmail('');
         setPassword('');

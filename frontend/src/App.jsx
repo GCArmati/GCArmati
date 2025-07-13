@@ -4,6 +4,7 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
+import Cart from "./components/Cart.jsx";
 
 
 function App() {
@@ -12,9 +13,10 @@ function App() {
         <Header></Header>
         <main className={"flex-fill p-3"}>
             <Routes>
-            <Route path={"/"} element={<Home />}/>
-            <Route path={"/register"} element={<Register />} />
-            <Route path={"/login"} element={<Login />} />
+                <Route path={"/"} element={<Home />}/>
+                <Route path={"/register"} element={<Register />} />
+                <Route path={"/login"} element={<Login />} />
+                <Route path={"/cart"} element={<Cart/>}/>
             </Routes>
         </main>
         <Footer></Footer>

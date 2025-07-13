@@ -18,6 +18,9 @@ async function register(req,res){
     //da vedere sto fatto di req.body
     const {username,password,email}=req.body;
     try{
+        if(!username||!email||!password){
+            res.status(400).json({message:"Tutti i campi vanno compilati obbligatoriamente"})
+        }
         const emailExisting=await Users.findOne({
             email: email
         });
@@ -35,7 +38,6 @@ async function register(req,res){
            res.status(201).json({message:"Registrazione completata"})
        }
     }catch(err){
-        //lo so che in console non mi serve a una ciola (forse)
         console.error(err);
         res.status(500).json({error:"Errore interno"});
     }
@@ -59,7 +61,7 @@ async function login(req,res){
 
 
         const valid= await user.comparePassword(password)
-        if(!valid) return res.status(401).json({error:"Password Errata. Register Non effettuato."})
+        if(!valid) return res.status(401).json({error:"Password Errata. Login Non effettuato."})
 
         const {accessToken,refreshToken}=generateTokens(user._id,user.role);
         await RefreshToken.create({
@@ -76,7 +78,7 @@ async function login(req,res){
         });
         // Invia l'access token nel corpo della risposta
         res.json({
-            message: "Register effettuato con successo!",
+            message: "Login effettuato con successo!",
             accessToken
         });
     }catch(err){
