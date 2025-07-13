@@ -19,6 +19,7 @@ router.get('/getAll', getAllComponents);
 router.get("/category/:category", getComponentsByCategory);
 
 //POST /api/component/modifyprice/:id
-router.post("/modifyprice/:id", verifyToken, adminRoute, modifyPrice);
+//router.post("/modifyprice/:id", verifyToken, adminRoute, modifyPrice);
+router.post('/modifyprice/:id', modifyPrice);
 
 module.exports = router;

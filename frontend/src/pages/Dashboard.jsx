@@ -1,10 +1,11 @@
 import './Dashboard.css'
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import ComponentList from '../components/ComponentList.jsx'
 import FormComponent from '../components/Form-Component.jsx'
+import FormModifyComponent from '../components/Form-Modify-Component.jsx'
 
 const tabs = [
-    { id: "create", label: "Create Product"},
+    { id: "create", label: "Create Component"},
     { id: "view", label: "Products"},
 ];
 

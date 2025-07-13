@@ -22,11 +22,12 @@ export default function ComponentList(){
     return(
         <>
             {components.map((component) => (
-                <Card2 key={component.id}
+                <Card2 key={component._id}
                        nome={component.name}
                        imgURL={component.imgUrl}
                        descrizione={component.description}
                        prezzo={component.price}
+                       componentID={component._id}
                 >
                 </Card2>
             ))}

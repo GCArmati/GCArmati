@@ -3,10 +3,12 @@ import Home from './pages/Home.jsx'
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Dashboard from './pages/Dashboard.jsx';
+import FormModifyComponent from './components/Form-Modify-Component.jsx'
 //import Register from "./components/Register.jsx";
 //import Login from "./components/Login.jsx";
 
 function App() {
+
     return (
         <div className={"d-flex flex-column min-vh-100"}>
             <Header></Header>
@@ -16,6 +18,7 @@ function App() {
                     {/*<Route path={"/register"} element={<Register />} />
                     <Route path={"/login"} element={<Login />} />*/}
                     <Route path={"/dashboard"} element={<Dashboard />} />
+                    <Route path={"/modify"} element={<FormModifyComponent/>} />
                 </Routes>
             </main>
             <Footer></Footer>

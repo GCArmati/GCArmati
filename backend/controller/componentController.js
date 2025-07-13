@@ -60,12 +60,12 @@ async function modifyPrice(req, res){
         const component = await Component.findById(req.params.id);
         const {price} = req.body;
 
-        if(!component){
-            res.status(404).json({message: "Component not found"});
+        if (!component) {
+            return res.status(404).json({ message: "Component not found" });
         }
 
-        if(price<0){
-            res.status(400).json({message: "Price value not valid"});
+        if (price < 0) {
+            return res.status(400).json({ message: "Price value not valid" });
         }
 
         component.price = price;
