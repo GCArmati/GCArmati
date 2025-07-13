@@ -11,12 +11,6 @@ export default function Navbar(){
                 <div className={"col-auto"}><Link to="/register">Register</Link></div>
                 <div className={"col-auto"}><Link to="/cart">Cart</Link></div>
             </div>
-
-
-
-
-
-
         </div>
     )
 }
