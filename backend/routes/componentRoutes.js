@@ -9,7 +9,8 @@ const router = express.Router();
 router.post('/create', createComponent);
 
 //DELETE /api/component/delete/:id - only Admin
-router.delete('/delete/:id', verifyToken, adminRoute, deleteComponent);
+//router.delete('/delete/:id', verifyToken, adminRoute, deleteComponent);
+router.delete('/delete/:id', deleteComponent);
 
 //GET /api/component/getAll
 //router.get('/getAll', verifyToken, adminRoute, getAllComponents);

@@ -17,7 +17,7 @@ export default function ComponentList(){
             }
         };
         fetchData();
-    }, [])
+    }, [components])
 
     return(
         <>

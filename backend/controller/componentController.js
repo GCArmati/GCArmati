@@ -33,7 +33,6 @@ async function deleteComponent(req, res){
         if(!component){
             res.status(404).json({message: "Component not found"});
         }
-        // può andare bene? await Component.deleteOne({_id:req.params.id})
 
         await Component.findByIdAndDelete(req.params.id);
     }catch(error){

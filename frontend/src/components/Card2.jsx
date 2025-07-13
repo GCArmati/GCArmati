@@ -1,6 +1,6 @@
 import './Card.css'
-import ButtonDelete from './Button-Delete.jsx'
 import {createSearchParams, useNavigate} from "react-router-dom";
+import {editPrice, removeComponent} from "../routes/componentRoutes.js";
 
 
 
@@ -11,9 +11,21 @@ export default function Card2({nome, imgURL, descrizione, prezzo, componentID}){
     const handleModify = () => {
         navigate({
             pathname: "/modify",
-            search:createSearchParams({id: componentID,}).toString()
+            search:createSearchParams({id: componentID}).toString()
         })
         console.log(componentID);
+    }
+
+    const handleDelete = async (e) => {
+        e.preventDefault();
+        console.log(componentID);
+        try {
+            console.log(componentID);
+            await removeComponent(componentID);
+            alert("Dati eliminato con successo!");
+        } catch (error) {
+            alert("Errore nella cancellazione.");
+        }
     }
 
     return(
@@ -34,7 +46,9 @@ export default function Card2({nome, imgURL, descrizione, prezzo, componentID}){
                     <button className={"btn btn-primary"} onClick={handleModify}>
                         Modifica Prezzo
                     </button>
-                    <ButtonDelete></ButtonDelete>
+                    <button className={"btn btn-primary"} onClick={handleDelete}>
+                        Elimina
+                    </button>
                 </div>
             </div>
         </div>

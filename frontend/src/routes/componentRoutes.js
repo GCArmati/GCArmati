@@ -51,7 +51,7 @@ export async function editPrice(id, price){
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZlOGY0NDhjZDhjMTQ4M2NlNmFhMTEiLCJ1c2VyUm9sZSI6IkFkbWluIiwiaWF0IjoxNzUyNDM0MDMyLCJleHAiOjE3NTI0MzU1MzJ9.VeXzy9jxNwwyTZO6rlOQu5iEU5elxr2vYdbw16RUt_4`
+                "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZlOGY0NDhjZDhjMTQ4M2NlNmFhMTEiLCJ1c2VyUm9sZSI6IkFkbWluIiwiaWF0IjoxNzUyNDM4MjcxLCJleHAiOjE3NTI0Mzk3NzF9.SiBL5GXoSYZmAzbeJC6z1UKpqZMBeCMXoVVDYRoZHb4`
             },
             //credentials: 'include', // da testare
             body: JSON.stringify({price}),
@@ -65,6 +65,28 @@ export async function editPrice(id, price){
 
     }catch(error){
         console.log("Errore in fase di modifica", error.message);
+        throw error;
+    }
+}
+
+export async function removeComponent(id){
+    try{
+        const response = await fetch(`http://localhost:3000/api/component/delete/${id}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZlOGY0NDhjZDhjMTQ4M2NlNmFhMTEiLCJ1c2VyUm9sZSI6IkFkbWluIiwiaWF0IjoxNzUyNDM4MjcxLCJleHAiOjE3NTI0Mzk3NzF9.SiBL5GXoSYZmAzbeJC6z1UKpqZMBeCMXoVVDYRoZHb4"
+            }
+        })
+
+        if(!response.ok){
+            throw new Error('Errore nel recupero dati del componente');
+        }
+
+        return await response.json();
+
+    }catch(error){
+        console.log("Errore in fase di cancellazione", error.message);
         throw error;
     }
 }
