@@ -5,7 +5,7 @@ function Card({name,imgURL,description,prezzo}){
     return(
         <div id="cardContainer1" className={"container-xl border p-3 m-3 rounded border-black"}>
             <div className={"row"}>
-                <h1 className={"text-justify"}>Componente</h1></div>
+                <h1 className={"text-justify"}>componente</h1></div>
             <div  className="row">
                 <div className="col-md-5">
                     <img src="https://www.yeppon.it/guide-acquisti/wp-content/uploads/2022/09/miglior-pc-gaming.jpg" alt="immagine"></img>
