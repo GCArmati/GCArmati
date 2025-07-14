@@ -1,7 +1,7 @@
 import './Dashboard.css'
 import {useState} from 'react'
-import ComponentList from '../components/ComponentList.jsx'
-import FormComponent from '../components/Form-Component.jsx'
+import ComponentList from './ComponentList.jsx'
+import FormComponent from './Form-Component.jsx'
 
 const tabs = [
     { id: "create", label: "Create Component"},
@@ -16,11 +16,13 @@ export default function Dashboard(){
             <div>
                 {tabs.map((tab) => (
                     <button
+                        style={{ color: "#b2f7ef" }}
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
                     >
                         {tab.label}
                     </button>
+
                 ))}
             </div>
             {activeTab === "create" && <FormComponent />}

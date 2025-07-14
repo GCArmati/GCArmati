@@ -43,8 +43,7 @@ export default function FormModifyComponent(){
         } catch (error) {
             alert("Errore nel salvataggio.");
         }
-        const path = '/dashboard';
-        navigate(path);
+        navigate("/dashboard");
     }
 
     if (!component) {
@@ -52,19 +51,19 @@ export default function FormModifyComponent(){
     }
 
     return (
-        <form className="modify-form" onSubmit={handleEdit}>
-            <div className="modify-group">
-                <label className="modify-label">Nome:</label>
-            <input
-                type="text"
-                name="nome"
-                value={component.name}
-                disabled
-                className="form-control"
-            />
-        </div>
-            <div className="modify-group">
-                <label className="modify-label">URL Immagine:</label>
+        <form className="modify-form mx-auto p-2" onSubmit={handleEdit}>
+            <div className="modify-group row mb-3 align-items-center">
+                <label className="modify-label col-sm-3 col-form-label text-sm-start">Nome:</label>
+                <input
+                    type="text"
+                    name="nome"
+                    value={component.name}
+                    disabled
+                    className="form-control"
+                />
+            </div>
+            <div className="modify-group row mb-3 align-items-center">
+                <label className="modify-label col-sm-3 col-form-label text-sm-start">URL Immagine:</label>
         <input
                     type={"text"}
                     name={"imgUrl"}
@@ -72,8 +71,8 @@ export default function FormModifyComponent(){
                     disabled
                 />
             </div>
-            <div className="modify-group">
-                <label className="modify-label">Descrizione:</label>
+            <div className="modify-group row mb-3 align-items-center">
+                <label className="modify-label col-sm-3 col-form-label text-sm-start">Descrizione:</label>
                 <textarea
                     cols="30"
                     rows="10"
@@ -83,8 +82,8 @@ export default function FormModifyComponent(){
                 >
                 </textarea>
             </div>
-            <div className="modify-group">
-                <label className="modify-label">Prezzo:</label>
+            <div className="modify-group row mb-3 align-items-center">
+                <label className="modify-label col-sm-3 col-form-label text-sm-start">Prezzo:</label>
                 <input
                     type="number"
                     min="0"
@@ -94,8 +93,8 @@ export default function FormModifyComponent(){
                     value={component.price}
                 />
             </div>
-            <div className="modify-group">
-                <label className="modify-label">Categoria:</label>
+            <div className="modify-group row mb-3 align-items-center">
+                <label className="modify-label col-sm-3 col-form-label text-sm-start">Categoria:</label>
                 <select name="categoria" value={component.category} disabled >
                     <option value=""></option>
                     <option value={"processor"}>Processor</option>

@@ -90,3 +90,28 @@ export async function removeComponent(id){
         throw error;
     }
 }
+
+export async function getByCategory(categoria){
+    try{
+        const response = await fetch(`http://localhost:3000/api/component/category/${categoria}`,{
+            method: 'GET',
+            credentials: 'include',
+        });
+
+        if(!response.ok){
+            throw new Error('Errore nel recupero dei componenti');
+        }
+
+        const data = await response.json();
+
+        if(data.accessToken){
+            localStorage.setItem('accessToken',data.accessToken)
+        }
+
+        return data;
+
+    }catch(error){
+        console.log("Errore nel recupero dati dal DataBase");
+        throw error;
+    }
+}

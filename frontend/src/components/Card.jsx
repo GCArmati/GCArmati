@@ -1,18 +1,55 @@
 import './Card.css'
-import {createSearchParams, useNavigate} from "react-router-dom";
+import {createSearchParams, useNavigate, useLocation} from "react-router-dom";
+import {useState} from "react";
 
-export default function Card({nome, imgURL, descrizione, prezzo, categoria, componentID}) {
+export default function Card({nome, imgURL, descrizione, prezzo, categoria, componentID, onAddToCart}) {
     const navigate = useNavigate();
+    const location = useLocation();
+    const page = location.pathname;
 
     const handleAdd = async () => {
-
+        navigate({
+            pathname: "/category",
+            search: createSearchParams({category: categoria}).toString()
+        })
+        console.log(categoria);
     }
 
-    navigate({
-        pathname: "/category",
-        search:createSearchParams({id: categoria}).toString()
-    })
-    console.log(componentID);
+    const handleAddToCart = async (e) => {
+        console.log(e.target.value);
+        /*const {ok,message}= await addToCart(componentID); // <--- ECCO L'USO DEL componentId
+
+        if (ok) {
+            alert("Aggiunto al carrello!");
+        } else {
+            alert(message || "Errore nell'aggiunta al carrello");
+        }*/
+        navigate("/");
+    };
+
+    let tagButton;
+
+    if(page==="/category"){
+        tagButton = (
+            <button className={"btn btn-primary"} onClick={handleAddToCart} value={componentID}>
+                Aggiungi al Carrello
+            </button>
+        );
+    } else if(page==="/" && componentID!==undefined){
+        console.log(componentID);
+        tagButton = (
+            <button className={"btn btn-primary"} /*onClick={}*/>
+                Elimina
+            </button>
+        );
+    }else if(page==="/"){
+        tagButton = (
+            <button className={"btn btn-primary"} onClick={handleAdd}>
+                Aggiungi
+            </button>
+        );
+    }
+
     
     return(
         <div id="cardContainer1" className={"container-xl border p-3 m-3 rounded border-black"}>
@@ -33,10 +70,11 @@ export default function Card({nome, imgURL, descrizione, prezzo, categoria, comp
                 <div className="col-3 col-md-3 ">
                     <p>Prezzo</p>
                     <p>{prezzo}</p>
-                    <button className={"btn btn-primary"} /*onClick={handleAdd}*/>
-                        Aggiungi
-                    </button>
+
                 </div>
+            </div>
+            <div>
+                {tagButton}
             </div>
         </div>
     )
