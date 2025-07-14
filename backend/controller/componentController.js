@@ -1,80 +1,98 @@
-const Component=require("../model/componentModel")
+const Component = require('../model/componentModel');
+const Users =require('../model/userModel')
 
-
-
-//funzione per aggiungere al database dei componenti un nuovo pezzo,
-// c'è già verifyRole come middleware
-async function newComponent(req,res){
-    const {category,imageUrl,nameTag/*,amount*/,priceTag}=req.body;
-    if(!category||!imageUrl||!nameTag||/*!amount||*/!priceTag){
-        res.status(400).json({message:'Bisogna specificare necessariamente tutti i campi di un componente per poterlo inserire!'})
-    }
+// funzione per creare un componente
+async function createComponent(req, res){
     try{
-        const newComp=await Component.create({
-            category:category,
-            imageURL:imageUrl,
-            nameTag:nameTag,
-            //amount:amount,
-            priceTag:priceTag,
-        })
-        res.status(201).json({
-            message:"Nuovo componente aggiunto al DB correttamente.",
-            comp:newComp //capire se necessario
-        })
-    }catch(e){
-        console.error(e);
-        res.status(500).json({message:"Internal error "+e})
-    }
-}
+        const {name, description, price, category, imgUrl} = req.body;
 
-async function getAllComponents(req,res){
-    //funzione pensata per renderizzare nella pagina un totale di 10 card o quante ne vogliamo
-    try{
-        const page=parseInt(req.query.page)||1;   //prende pagina corrente da query nell'url o setta 1
-        const limit=parseInt(req.query.limit)||10; //prende limite da query nell'url o setta 10
-        const skip=(page-1)*limit;
-
-        const components=await Component.find()
-            .sort({nameTag:1})  //risultati in ordine alfabetico A-->Z
-            .skip(skip)
-            .limit(limit)
-
-        const totalComponents=await Component.countDocuments(); //easy count dei documenti
-        res.json({
-            message:'Componenti recuperati con successo.',
-            comp:components,
-            totalPages:Math.ceil(totalComponents/limit), //arrotondato per eccesso, numero di pagine necessarie per mostrare tutti comp
-            totalComponents:totalComponents
-        });
-    }catch(err){
-        console.error(err);
-        res.status(500).json({
-            message:"Errore interno, impossibile caricare i componenti."+err
-        })
-    }
-
-}
-
-async function getComponentByName(req,res){
-    try{
-        const name=req.params.nameTag.toLowerCase().trim();
-        const searchedComponent=await Component.findOne({nameTag:name})
-        if(!searchedComponent){
-            console.log("Nessun componente con questo nome trovato nel database")
-            res.status(404).json({message:"Component not found in the database."});
+        if(!name || !description || !price || !category){
+            res.status(400).json({message: "All the fields are required"});
         }
-        res.json({message:'Componente recuperato.',comp:searchedComponent});
-    }catch(e){
-        console.error(e);
-        res.status(500).json({
-            message:"Internal error"
+
+        const component = await Component.create({
+            name,
+            description,
+            price,
+            category,
+            imgUrl,
         })
+
+        res.status(200).json(component);
+    }catch(error){
+        console.log("Error in createComponent controller",error.message);
+        res.status(500).json({message: "Server error", error: error.message});
     }
+}
 
-} //beta
+// funzione per rimuovere un componente
+async function deleteComponent(req, res){
+    try{
+        const component = await Component.findById(req.params.id);
 
-module.exports={
-    newComponent,
-    getAllComponents,
-    getComponentByName
+        if(!component){
+            res.status(404).json({message: "Component not found"});
+        }
+
+        await Component.findByIdAndDelete(req.params.id);
+    }catch(error){
+        console.log("Error in deleteComponent controller",error.message);
+        res.status(500).json({message: "Server error", error: error.message});
+    }
+}
+
+// funzione per ottenere una lista di componenti in base alla loro categoria
+async function getComponentsByCategory(req, res) {
+    const {category} = req.params;
+    try{
+        const components = await Component.find({category});
+        res.json(components);
+    }catch(error){
+        console.log("Error in getComponentsByCategory controller", error.message);
+        res.status(500).json({message: "Server error", error: error.message});
+    }
+}
+
+// funzione per modificare il prezzo di un componente
+async function modifyPrice(req, res){
+    try{
+        const component = await Component.findById(req.params.id);
+        const {price} = req.body;
+
+        if (!component) {
+            return res.status(404).json({ message: "Component not found" });
+        }
+
+        if (price < 0) {
+            return res.status(400).json({ message: "Price value not valid" });
+        }
+
+        component.price = price;
+
+        await component.save();
+
+        res.status(200).json(component);
+
+    }catch(error){
+        console.log("Error in modifyPrice controller", error.message);
+        res.status(500).json({message: "Server error", error: error.message});
+    }
+}
+
+async function getAllComponents(req, res){
+    try{
+        const components = await Component.find({});
+        res.json(components);
+    }catch(error){
+        console.log("Error in getAllComponents controller", error.message);
+        res.status(500).json({message: "Server error", error: error.message});
+    }
+}
+
+module.exports = {
+    createComponent,
+    deleteComponent,
+    getComponentsByCategory,
+    modifyPrice,
+    getAllComponents
 }

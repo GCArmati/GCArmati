@@ -16,8 +16,10 @@ export default function Cart(){
             }
         }
         fetchCart().catch(err=>console.log(err));
-    }, []);
+    }, [cart]);
     if(message)return<p>{message}</p>;
+
+
 
     return(
         <>

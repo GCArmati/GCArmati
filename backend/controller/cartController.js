@@ -1,7 +1,6 @@
 const Cart=require('../model/cartModel')
-const Component=require('../model/componentModel')
 const User=require('../model/userModel')
-
+const Component=require('../model/componentModel')
 
 async function addToCart(req,res){
 
@@ -35,7 +34,7 @@ try{
         userCart.componentsList.push({componentElement:componentId,amount:1})
         await userCart.save();
         //nella risposta dico tutto bene e gli mando anche il carrello nuovo
-        res.status(201).json({message:"Elemento aggiunto al carrello.",cart: userCart})
+        res.status(201).json({message:"Elemento aggiunto al carrello.",/*cart: userCart*/})
     }
 
 }catch(e){
@@ -62,7 +61,7 @@ async function removeFromCart(req,res){
         const newCartList=userCart.componentsList.filter(e=> e.componentElement !== componentId);
         userCart.componentsList=newCartList;
         await userCart.save();
-        res.status(200).json({message:"Elemento rimosso dal carrello.",cart: newCartList})
+        res.status(200).json({message:"Elemento rimosso dal carrello.",/*cart: newCartList*/})
 
     }catch(e){
         console.error(e)
@@ -84,8 +83,11 @@ async function getCart(req,res){
                 message:"Il carrello è vuoto. Prova ad aggiungere qualcosa."
             })
         }else{
+            const componentCart=userCart.componentsList.map(async item=>await Component.findById(item.componentElement))
+
             res.json({
-                cart:userCart,
+                cart:componentCart,
+                prezzoTotale:userCart.prezzoTotale,
             })
         }
 
@@ -107,14 +109,14 @@ async function decreaseAmount(req,res){
         await userCart.save();
         res.status(200).json({
             message:"Componente rimosso dal carrello.",
-            cart:userCart
+            /*cart:userCart*/
         })
     }else{
         itemToDecrease.amount-=1;
         await userCart.save();
         res.status(200).json({
             message:"Ne rimangono "+itemToDecrease.amount+" nel carrello dell'utente.",
-            cart:userCart
+           /* cart:userCart */
         })
     }
 }
@@ -130,7 +132,7 @@ async function increaseAmount(req,res){
     await userCart.save();
     res.status(200).json({
         message:"Componente aggiunto correttamente.",
-        cart:userCart
+        /*cart:userCart*/
     })
 }
 
