@@ -46,7 +46,7 @@ async function customFetch(url, options = {}) { //pensata per richiedere accessT
                 },
             };
 
-            const data = await fetch(url, retryOptions);
+            const data = (await fetch(url, retryOptions));
             return data.json();
         } catch (err) {
             console.error('Errore durante il refresh del token:', err);
@@ -90,5 +90,24 @@ export async function getCart() {
         return await response.json();
     } catch (e) {
         return {message: 'Errore di connessione al server.'};
+    }
+}
+
+export async function decreaseAmountFetch(){
+    try{
+
+
+
+    }catch(e){
+        return {message:"Errore di connessione."}
+    }
+
+}
+
+export async function increaseAmountFetch(){
+    try{
+
+    }catch(e){
+        return {message:'Errore di connessione.'}
     }
 }

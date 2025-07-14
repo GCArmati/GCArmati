@@ -15,7 +15,7 @@ export default function Cart(){
                 setCart(data.cart)
             }
         }
-        fetchCart();
+        fetchCart().catch(err=>console.log(err));
     }, []);
     if(message)return<p>{message}</p>;
 
@@ -28,5 +28,4 @@ export default function Cart(){
             {cart && <h3>Totale:{cart.prezzoTotale}€</h3>}
         </>
     )
-
 }
