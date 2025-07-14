@@ -58,22 +58,21 @@ async function customFetch(url, options = {}) { //pensata per richiedere accessT
     return response.json();
 }
 
-export async function addToCart(email, password, username) {
+export async function addToCart(componentId) {
     try {
-        const response = await customFetch(`http://localhost:3000/api/cart/addCart`, {
+        const response = await customFetch('http://localhost:3000/api/cart/addCart', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password, username })
+            body: JSON.stringify({ componentId }),
+            credentials: 'include'
         });
 
-        return await response.json();
-
-
-    } catch (err) {
-        console.error('Errore durante la registrazione:', err);
-        throw err;
+        const data = await response.json();
+        return { ok: response.ok, message:data.message };
+    } catch (e) {
+        return { ok: false, message: "Errore connessione server"  };
     }
 }
 

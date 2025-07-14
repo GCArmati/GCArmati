@@ -58,8 +58,8 @@ async function removeFromCart(req,res){
         if(!userId){res.status(404).json({message:"Utente non trovato"})}
         //dall'account risalgo al carrello dell'utente
         const userCart=await Cart.findOne({_id:user.myCart})
-        const newCartList=userCart.componentsList.filter(e=> e.componentElement !== componentId);
-        userCart.componentsList=newCartList;
+
+        userCart.componentsList=userCart.componentsList.filter(e=> e.componentElement !== componentId);
         await userCart.save();
         res.status(200).json({message:"Elemento rimosso dal carrello.",/*cart: newCartList*/})
 

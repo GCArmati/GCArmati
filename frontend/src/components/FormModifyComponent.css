@@ -1,0 +1,16 @@
+.modify-form {
+    width:300px;
+}
+
+.modify-form input,
+.modify-form select,
+.modify-form textarea {
+    background-color: #FFFFFF;
+    color: #000;
+}
+
+.modify-form input:disabled,
+.modify-form select:disabled,
+.modify-form textarea:disabled {
+    background-color: #FFFFFF;
+}

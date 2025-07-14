@@ -1,21 +1,19 @@
-import Card from "./Card";
+import Card from "./Card.jsx";
 import './Home.css'
 
-
-
 export default function Home(){
-    {/*const components = [
-        {
-            id:0,
-            name:Componente,
-        }
-    ]*/}
 
     return (
         <>
-            <Card></Card>
-            <Card></Card>
-            <Card></Card>
+            <Card categoria={"processor"}></Card>
+            <Card categoria={"motherboard"}></Card>
+            <Card categoria={"cpu-cooler"}></Card>
+            <Card categoria={"case"}></Card>
+            <Card categoria={"graphics-card"}></Card>
+            <Card categoria={"ram"}></Card>
+            <Card categoria={"storage"}></Card>
+            <Card categoria={"case-cooler"}></Card>
+            <Card categoria={"power-supply"}></Card>
         </>
     )
 

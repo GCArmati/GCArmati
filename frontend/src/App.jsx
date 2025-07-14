@@ -5,6 +5,9 @@ import Footer from "./components/Footer.jsx";
 import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
 import Cart from "./components/Cart.jsx";
+import Dashboard from "./components/Dashboard.jsx";
+import FormModifyComponent from "./components/FormModifyComponent.jsx";
+import CategoryList from "./components/CategoryList.jsx";
 
 
 function App() {
@@ -17,6 +20,9 @@ function App() {
                 <Route path={"/register"} element={<Register />} />
                 <Route path={"/login"} element={<Login />} />
                 <Route path={"/cart"} element={<Cart/>}/>
+                <Route path={"/dashboard"} element={<Dashboard />} />
+                <Route path={"/modify"} element={<FormModifyComponent/>} />
+                <Route path={"/category"} element={<CategoryList />} />
             </Routes>
         </main>
         <Footer></Footer>
