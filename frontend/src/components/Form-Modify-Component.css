@@ -1,0 +1,12 @@
+.modify-form {
+    text-align: center;
+}
+
+.modify-input,
+.modify-select,
+.modify-textarea {
+    display: block;
+    margin: 0.5rem auto;
+    width: 300px;
+    height: auto;
+}

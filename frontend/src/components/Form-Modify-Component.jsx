@@ -1,11 +1,15 @@
-import {useSearchParams} from 'react-router-dom'
+import {useSearchParams, useNavigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import {editPrice, getAll} from "../routes/componentRoutes.js";
+import './Form-Modify-Component.css';
+
 
 export default function FormModifyComponent(){
     const [searchParams] = useSearchParams()
     const componentId = searchParams.get('id')
     const [component, setComponent] = useState(null)
+
+    let navigate = useNavigate();
 
     useEffect(()=> {
         const fetchData = async () => {
@@ -35,9 +39,12 @@ export default function FormModifyComponent(){
         try {
             await editPrice(componentId, component.price);
             alert("Dati salvati con successo!");
+
         } catch (error) {
             alert("Errore nel salvataggio.");
         }
+        const path = '/dashboard';
+        navigate(path);
     }
 
     if (!component) {
@@ -45,27 +52,28 @@ export default function FormModifyComponent(){
     }
 
     return (
-        <form onSubmit={handleEdit}>
-            <div>
-                <label>Nome:</label>
-                <input
-                    type="text"
-                    name="nome"
-                    value={component.name}
-                    disabled
-                />
-            </div>
-            <div>
-                <label>URL Immagine:</label>
-                <input
+        <form className="modify-form" onSubmit={handleEdit}>
+            <div className="modify-group">
+                <label className="modify-label">Nome:</label>
+            <input
+                type="text"
+                name="nome"
+                value={component.name}
+                disabled
+                className="form-control"
+            />
+        </div>
+            <div className="modify-group">
+                <label className="modify-label">URL Immagine:</label>
+        <input
                     type={"text"}
                     name={"imgUrl"}
                     value={component.imgUrl}
                     disabled
                 />
             </div>
-            <div>
-                <label>Descrizione:</label>
+            <div className="modify-group">
+                <label className="modify-label">Descrizione:</label>
                 <textarea
                     cols="30"
                     rows="10"
@@ -75,8 +83,8 @@ export default function FormModifyComponent(){
                 >
                 </textarea>
             </div>
-            <div>
-                <label>Prezzo:</label>
+            <div className="modify-group">
+                <label className="modify-label">Prezzo:</label>
                 <input
                     type="number"
                     min="0"
@@ -86,8 +94,8 @@ export default function FormModifyComponent(){
                     value={component.price}
                 />
             </div>
-            <div>
-                <label>Categoria:</label>
+            <div className="modify-group">
+                <label className="modify-label">Categoria:</label>
                 <select name="categoria" value={component.category} disabled >
                     <option value=""></option>
                     <option value={"processor"}>Processor</option>
@@ -101,7 +109,7 @@ export default function FormModifyComponent(){
                     <option value={"power-supply"}>Power Supply</option>
                 </select>
             </div>
-            <button type={"submit"}>Salva</button>
+            <button type="submit" className="modify-button">Salva</button>
         </form>
     )
 }

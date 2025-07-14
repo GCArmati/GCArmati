@@ -1,10 +1,10 @@
-import './Card.css'
+import './Card2.css'
 import {createSearchParams, useNavigate} from "react-router-dom";
-import {editPrice, removeComponent} from "../routes/componentRoutes.js";
+import {removeComponent} from "../routes/componentRoutes.js";
 
 
 
-export default function Card2({nome, imgURL, descrizione, prezzo, componentID}){
+export default function Card2({nome, imgURL, descrizione, prezzo, categoria, componentID}){
 
     const navigate = useNavigate()
 
@@ -33,21 +33,32 @@ export default function Card2({nome, imgURL, descrizione, prezzo, componentID}){
             <div className={"row"}>
                 <h1 className={"text-justify"}>{nome}</h1></div>
             <div  className="row">
+
+                <div className={"row"}>
+                    <h2 className={"text-justify"}>{categoria}</h2>
+                </div>
+
                 <div className="col-md-5">
                     <img src={imgURL} alt="immagine"></img>
                 </div>
+
                 <div className="col-3 col-md-4">
                     <p className={"text-left"}>Descrizione</p>
                     <p className={"text-left"}>{descrizione}</p>
                 </div>
-                <div className="col-3 col-md-3 ">
-                    <p>Prezzo</p>
-                    <p>{prezzo}</p>
-                    <button className={"btn btn-primary"} onClick={handleModify}>
-                        Modifica Prezzo
-                    </button>
+
+                <div className="col-auto col-md-3 ">
                     <button className={"btn btn-primary"} onClick={handleDelete}>
                         Elimina
+                    </button>
+                </div>
+                <div className="col-auto ">
+                    <p>Prezzo</p>
+                    <p>{prezzo}</p>
+
+                    <button className={"btn btn-primary"} onClick={handleModify}>
+                        Modifica Prezzo
+
                     </button>
                 </div>
             </div>

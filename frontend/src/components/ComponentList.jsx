@@ -1,7 +1,6 @@
 import Card2 from './Card2.jsx'
 import {getAll} from '../routes/componentRoutes'
 import {useState, useEffect} from 'react'
-import {data} from "react-router-dom";
 
 export default function ComponentList(){
 
@@ -24,6 +23,7 @@ export default function ComponentList(){
             {components.map((component) => (
                 <Card2 key={component._id}
                        nome={component.name}
+                       categoria={component.category}
                        imgURL={component.imgUrl}
                        descrizione={component.description}
                        prezzo={component.price}
@@ -31,12 +31,6 @@ export default function ComponentList(){
                 >
                 </Card2>
             ))}
-            {/*<Card2
-                nome={components.nome}
-                imgURL={components.imgURL}
-                descrizione={components.descrizione}
-                prezzo={components.prezzo}
-            ></Card2>*/}
         </>
     )
 }
