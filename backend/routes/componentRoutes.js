@@ -13,7 +13,7 @@ router.post('/create', createComponent);
 router.delete('/delete/:id', deleteComponent);
 
 //GET /api/component/getAll
-//router.get('/getAll', verifyToken, adminRoute, getAllComponents);
+//router.get('/getAll', getAllComponents);
 router.get('/getAll', getAllComponents);
 
 //GET /api/component/category/:category

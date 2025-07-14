@@ -1,0 +1,47 @@
+#superContainerR{
+    display:grid;
+    grid-template-columns:20vw 60vw 20vw;
+    height:50vh;
+
+}
+#loginContainer{
+    margin-top:30px;
+    display:flex;
+    flex-direction: column;
+    grid-column: 2;
+    background-color:#9de4cb;
+    border-radius: 8px;
+
+}
+
+#loginContainer div {
+    padding-top:20px;
+    padding-inline: 15px;
+    font-family:var(--bs-body-font-family)
+    system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1.3em;
+}
+#loginContainer button{
+    margin-top:30px;
+    margin-inline: 15px;
+}
+
+#testoSup{
+    color:#9de4cb;
+    text-align:center;
+    margin-top:20px;
+    margin-bottom: -20px;
+    font-size:1.3em;
+
+}
+#testoInf {
+    color:black;
+    font-size: 1.1em;
+    font-family: "Harlow Solid Italic", serif;
+    margin-left:20px;
+    margin-top:15px;
+}
+
+#buttonContainer{
+    margin-left:-12px;
+}

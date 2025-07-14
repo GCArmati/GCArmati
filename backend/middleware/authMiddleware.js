@@ -27,6 +27,7 @@ function verifyToken(req,res,next){
 
 // verifico che l'utente che ha fatto richiesta sia un 'admin'
 async function adminRoute(req, res, next){
+    console.log("Controllo ruolo utente:", req.user);
     // se l'utente è autenticato e ha ruolo 'admin' posso eseguire la successiva operazione
     if(req.user && req.user.role === "Admin"){
         next()

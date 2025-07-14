@@ -1,7 +1,7 @@
 import {useSearchParams, useNavigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import {editPrice, getAll} from "../routes/componentRoutes.js";
-import './Form-Modify-Component.css';
+import './FormModifyComponent.css';
 
 
 export default function FormModifyComponent(){
@@ -59,7 +59,6 @@ export default function FormModifyComponent(){
                     name="nome"
                     value={component.name}
                     disabled
-                    className="form-control"
                 />
             </div>
             <div className="modify-group row mb-3 align-items-center">
