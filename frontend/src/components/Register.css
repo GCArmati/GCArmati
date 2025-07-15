@@ -35,7 +35,7 @@
 
 }
 #testoInf {
-    color:black;
+    color:#000000;
     font-size: 1.1em;
     font-family: "Harlow Solid Italic", serif;
     margin-left:20px;
@@ -44,4 +44,8 @@
 
 #buttonContainer{
     margin-left:-12px;
+}
+
+label{
+    color:black;
 }

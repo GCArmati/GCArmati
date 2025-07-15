@@ -13,9 +13,19 @@ async function addToCart(req,res){
         //piccolo controllo sul campo component, se manca la richiesta è mal formata,
         if(!componentId){res.status(400).json({message:"The server didn't find an item to add"})}
         //qui non faccio nessun controllo, userId c'è per forza a patto che il token di accesso dell'utente sia valido
-        const userId=req.userId; //ottenuto da verifyToken
+        const userId=req.user.id; //ottenuto da verifyToken
+
+        if(!userId) {
+            console.error("Errore nella ricerca dello userId")
+            res.status(400).json({message:"No userId found"})}
         //dall'userId risalgo all'account
+
         const user=await User.findById(userId)
+        if(!user){
+            console.error("Manca utente")
+            res.status(400).json({message:"No user found"})
+        }
+
         //dall'account risalgo al carrello dell'utente
         const userCart=await Cart.findOne({_id:user.myCart})
 
@@ -53,7 +63,7 @@ async function removeFromCart(req,res){
         if(!componentId){
             res.status(400).json({message:"ComponentId not found in the request"})
         }
-        const userId=req.userId; //ottenuto da verifyToken
+        const userId=req.user.id; //ottenuto da verifyToken
         //dall'userId risalgo all'account
         const user=await User.findById(userId)
         if(!userId){res.status(404).json({message:"Utente non trovato"})}
@@ -74,7 +84,7 @@ async function getCart(req,res){
 
     try{
         //qui non faccio nessun controllo, userId c'è per forza a patto che il token di accesso dell'utente sia valido
-        const userId=req.userId; //ottenuto da verifyToken
+        const userId=req.user.id; //ottenuto da verifyToken
         //dall'userId risalgo all'account
         const user=await User.findById(userId)
         //dall'account risalgo al carrello dell'utente
@@ -84,11 +94,18 @@ async function getCart(req,res){
                 message:"Il carrello è vuoto. Prova ad aggiungere qualcosa."
             })
         }else{
+            const components=userCart.componentsList.map(async item=>{
+                return{
+                    component:await Component.findById(item.componentElement),
+                    amount:item.amount
+                }
+            })
+
             res.json({
-                cart:userCart,
+                cart:components, //array di oggetti formati da un componente e dalla relativa quantità
+                prezzoTot:userCart.prezzoTotale,
             })
         }
-
     }catch(e){
         console.error(e);
         res.status(500).json({message:"Errore Interno, riprovare più tardi"})
@@ -97,7 +114,7 @@ async function getCart(req,res){
 
 async function decreaseAmount(req,res){
     const {componentId}=req.body;
-    const userId=req.userId; //da verifyToken
+    const userId=req.user.id; //da verifyToken
     const user=await User.findById(userId);
     const userCartId=user.myCart;
     const userCart=await Cart.findById(userCartId);
@@ -121,7 +138,7 @@ async function decreaseAmount(req,res){
 
 async function increaseAmount(req,res){
     const {componentId}=req.body;
-    const userId=req.userId; //da verifyToken
+    const userId=req.user.id; //da verifyToken
     const user=await User.findById(userId);
     const userCartId=user.myCart;
     const userCart=await Cart.findById(userCartId);

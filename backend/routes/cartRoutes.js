@@ -6,7 +6,7 @@ const {verifyToken}=require('../middleware/authMiddleware')
 //richieste con authotization header per verifyToken
 
 //qui serve solo "componentId"
-router.post('/addCart',verifyToken,addToCart)
+router.post('/addCart', verifyToken, addToCart)
 
 //solo "componentId"
 router.post('/removeCart',verifyToken, removeFromCart)

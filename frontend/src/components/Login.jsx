@@ -1,5 +1,5 @@
 
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import './Login.css'
 import {useState} from "react";
 import {login} from "../routes/authRoutes.js";
@@ -8,6 +8,14 @@ import {create} from "../routes/componentRoutes.js";
 export default function Login(){
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
+
+    const navigate = useNavigate()
+
+    function handleReset(e){
+        e.preventDefault();
+        setEmail('');
+        setPassword('');
+    }
 
     async function handleSubmit(e){
         e.preventDefault();
@@ -21,6 +29,8 @@ export default function Login(){
 
         setEmail('');
         setPassword('');
+
+        navigate('/');
     }
 
     return (
@@ -37,10 +47,10 @@ export default function Login(){
                             <label htmlFor="Password">Password</label>
                             <input type="password" className="form-control" id="Password" placeholder="Password..." onChange={(e)=>setPassword(e.target.value)} value={password}/>
                         </div>
-                        <div id={"buttonContainer"} className={"list-group-horizontal-md"}>
+                        <div id={"buttonContainer"} className={"list-group-horizontal-md mb-3"}>
                             <button type="submit" className="btn btn-success">Accedi</button>
 
-                            <button type="reset" className="btn btn-danger">Cancella</button>
+                            <button type="reset" className="btn btn-danger" onClick={handleReset}>Cancella</button>
 
                             <Link to={"/register"}><button type="submit" className="btn btn-primary">Torna al register</button></Link>
                         </div>

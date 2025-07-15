@@ -1,3 +1,5 @@
+import {customFetch} from './cartRoutes'
+
 export async function getAll(){
     try{
         const response = await fetch(`http://localhost:3000/api/component/getAll`, {
@@ -24,21 +26,17 @@ export async function getAll(){
 
 export async function create(component){
     try{
-        const response = await fetch(`http://localhost:3000/api/component/create`, {
+        const response = await customFetch(`http://localhost:3000/api/component/create`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODc1MmJmNWI2NTk2YmIxOTY4NzRlZjAiLCJ1c2VyUm9sZSI6IlV0ZW50ZSIsImlhdCI6MTc1MjUxMDQ4OCwiZXhwIjoxNzUyNTExOTg4fQ.XYYopfwxYETxOLNF95PcR6uyy8M1UWmQJJLYJqmPX6M"
+                //"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZlOGY0NDhjZDhjMTQ4M2NlNmFhMTEiLCJ1c2VyUm9sZSI6IkFkbWluIiwiaWF0IjoxNzUyNTYzMzgwLCJleHAiOjE3NTI1NjQ4ODB9.LOkZDYatJ0GFzaFwvXNgCic0MghUdQWLiBi6wFK3m08"
             },
-            //credentials: 'include', // da testare
+            credentials: 'include', // da testare
             body: JSON.stringify(component),
         })
 
-        if(!response.ok){
-            throw new Error('Errore nel recupero dati del componente');
-        }
-
-        return await response.json();
+        return await response;
 
     }catch(error){
         console.log("Errore in fase di modifica", error.message);
@@ -48,21 +46,17 @@ export async function create(component){
 
 export async function editPrice(id, price){
     try{
-        const response = await fetch(`http://localhost:3000/api/component/modifyprice/${id}`, {
+        const response = await customFetch(`http://localhost:3000/api/component/modifyprice/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODc1MmJmNWI2NTk2YmIxOTY4NzRlZjAiLCJ1c2VyUm9sZSI6IlV0ZW50ZSIsImlhdCI6MTc1MjUxMDQ4OCwiZXhwIjoxNzUyNTExOTg4fQ.XYYopfwxYETxOLNF95PcR6uyy8M1UWmQJJLYJqmPX6M`
+                //"Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZlOGY0NDhjZDhjMTQ4M2NlNmFhMTEiLCJ1c2VyUm9sZSI6IkFkbWluIiwiaWF0IjoxNzUyNTYzMzgwLCJleHAiOjE3NTI1NjQ4ODB9.LOkZDYatJ0GFzaFwvXNgCic0MghUdQWLiBi6wFK3m08`
             },
-            //credentials: 'include', // da testare
+            credentials: 'include', // da testare
             body: JSON.stringify({price}),
         })
 
-        if(!response.ok){
-            throw new Error('Errore nel recupero dati del componente');
-        }
-
-        return await response.json();
+        return await response;
 
     }catch(error){
         console.log("Errore in fase di modifica", error.message);
@@ -72,19 +66,16 @@ export async function editPrice(id, price){
 
 export async function removeComponent(id){
     try{
-        const response = await fetch(`http://localhost:3000/api/component/delete/${id}`, {
+        const response = await customFetch(`http://localhost:3000/api/component/delete/${id}`, {
             method: 'DELETE',
+            credentials: 'include',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODc1MmJmNWI2NTk2YmIxOTY4NzRlZjAiLCJ1c2VyUm9sZSI6IlV0ZW50ZSIsImlhdCI6MTc1MjUxMDQ4OCwiZXhwIjoxNzUyNTExOTg4fQ.XYYopfwxYETxOLNF95PcR6uyy8M1UWmQJJLYJqmPX6M"
+                //"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZlOGY0NDhjZDhjMTQ4M2NlNmFhMTEiLCJ1c2VyUm9sZSI6IkFkbWluIiwiaWF0IjoxNzUyNTY0NzczLCJleHAiOjE3NTI1NjYyNzN9.CbHNaqdYzmu8D1CCNsJzFROjuw7oK8-tUWvRbGM1bbs"
             }
         })
 
-        if(!response.ok){
-            throw new Error('Errore nel recupero dati del componente');
-        }
-
-        return await response.json();
+        return await response;
 
     }catch(error){
         console.log("Errore in fase di cancellazione", error.message);

@@ -1,5 +1,6 @@
 import './Card.css'
 import {createSearchParams, useNavigate, useLocation} from "react-router-dom";
+import {addToCart} from '../routes/cartRoutes.js'
 import {useState} from "react";
 
 export default function Card({nome, imgURL, descrizione, prezzo, categoria, componentID}) {
@@ -15,14 +16,15 @@ export default function Card({nome, imgURL, descrizione, prezzo, categoria, comp
     }
 
     const handleAddToCart = async (e) => {
-        console.log(e.target.value);
-        /*const {ok,message}= await addToCart(componentID); // <--- ECCO L'USO DEL componentId
+        console.log(componentID);
+        const {ok,message}= await addToCart(componentID); // <--- ECCO L'USO DEL componentId
 
         if (ok) {
             alert("Aggiunto al carrello!");
         } else {
             alert(message || "Errore nell'aggiunta al carrello");
-        }*/
+        }
+
         navigate("/");
     };
     
@@ -60,14 +62,14 @@ export default function Card({nome, imgURL, descrizione, prezzo, categoria, comp
                 <h1 className={"text-justify"}>{categoria}</h1>
             </div>
             <div className="col-3 col-md-4">
-                <p className="text-left">Descrizione</p>
                 <p className="text-left">{descrizione}</p>
             </div>
-            <div>
-                <button className={"btn btn-primary"} onClick={handleAdd}>
+            <div className="d-flex justify-content-end">
+                <button className="btn btn-primary" onClick={handleAdd}>
                     Componenti disponibili
                 </button>
             </div>
+
         </div>
     )
 

@@ -7,6 +7,14 @@ export default function RegForm(){
     const [name,setName]=useState('');
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
+
+    function handleReset(e){
+        e.preventDefault();
+        setName('');
+        setEmail('');
+        setPassword('');
+    }
+
     async function handleSubmit(e){
         e.preventDefault();
         const data=await register(email,password,name); //già parsati praticamente
@@ -16,6 +24,7 @@ export default function RegForm(){
         setEmail('');
         setPassword('');
     }
+
     return (
         <>
             <form onSubmit={handleSubmit}>
@@ -34,7 +43,7 @@ export default function RegForm(){
                 <div id={"buttonContainer"} className={"list-group-horizontal-md"}>
                     <button type="submit" className="btn btn-success">Registrati</button>
 
-                    <button type="reset" className="btn btn-danger">Cancella</button>
+                    <button type="reset" className="btn btn-danger" onClick={handleReset}>Cancella</button>
 
                     <Link to={"/login"}><button type="submit" className="btn btn-primary">Login</button></Link>
                 </div>

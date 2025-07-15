@@ -80,7 +80,8 @@ async function login(req,res){
         // Invia l'access token nel corpo della risposta
         res.json({
             message: "Login effettuato con successo!",
-            accessToken
+            accessToken,
+            userRole:user.role
         });
     }catch(err){
         console.error(err);
