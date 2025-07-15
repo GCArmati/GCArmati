@@ -1,5 +1,6 @@
 
-export async function customFetch(url, options = {}) { //pensata per richiedere accessToken in automatico e poi ripetere l'operazione
+export async function customFetch(url, options) {
+    //pensata per richiedere accessToken in automatico e poi ripetere l'operazione
     //da sola
     // Estrae il token attuale
     const token = localStorage.getItem('accessToken');
@@ -8,16 +9,17 @@ export async function customFetch(url, options = {}) { //pensata per richiedere 
     const authOptions = {
         ...options,
         headers: {
-            ...(options.headers || {}),
+            ...(options.headers ||{}),
             Authorization: token ? `Bearer ${token}` : undefined,
         },
     };
 
     // Prova la richiesta iniziale
     const response = await fetch(url, authOptions);
+    console.log(response.headers);
 
     // Se è 401, prova a fare il refresh del token
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         try {
             const refreshResponse = await fetch('http://localhost:3000/api/auth/refresh', {
                 method: 'POST',
@@ -25,6 +27,7 @@ export async function customFetch(url, options = {}) { //pensata per richiedere 
             });
 
             if (!refreshResponse.ok) {
+                console.error("PROBLEMA REFRESH TOKEN")
                 throw new Error('Refresh token non valido');
             }
 
@@ -86,16 +89,24 @@ export async function getCart() {
             }
         });
 
-        return await response.json();
+        return {cart:response.cart,totale:response.prezzoTot}
     } catch (e) {
         return {message: 'Errore di connessione al server.'};
     }
 }
 
-export async function decreaseAmountFetch(){
+export async function decreaseAmountFetch(componentId){
+
     try{
-
-
+        const response = await customFetch('http://localhost:3000/api/cart/decrease', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ componentId }),
+            credentials: 'include'
+        });
+        return {message:response.message,cart:response.cart}
 
     }catch(e){
         return {message:"Errore di connessione."}
@@ -103,8 +114,18 @@ export async function decreaseAmountFetch(){
 
 }
 
-export async function increaseAmountFetch(){
+export async function increaseAmountFetch(componentId){
     try{
+        const response = await customFetch('http://localhost:3000/api/cart/increase', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({componentId}),
+            credentials: 'include'
+        });
+
+        return {message:response.message,cart:response.cart}
 
     }catch(e){
         return {message:'Errore di connessione.'}

@@ -11,7 +11,7 @@ export async function getAll(){
             throw new Error('Errore nel recupero dati componenti');
         }
 
-        return await response.json();
+        return await response;
 
     }catch(error){
         console.log("Errore in fase di caricamento delle componenti:", error.message)
@@ -34,7 +34,7 @@ export async function create(component){
             throw new Error('Errore nel recupero dati del componente');
         }
 
-        return await response.json();
+        return await response;
 
     }catch(error){
         console.log("Errore in fase di modifica", error.message);
@@ -58,7 +58,7 @@ export async function editPrice(id, price){
             throw new Error('Errore nel recupero dati del componente');
         }
 
-        return await response.json();
+        return await response;
 
     }catch(error){
         console.log("Errore in fase di modifica", error.message);
@@ -80,7 +80,7 @@ export async function removeComponent(id){
             throw new Error('Errore nel recupero dati del componente');
         }
 
-        return await response.json();
+        return await response;
 
     }catch(error){
         console.log("Errore in fase di cancellazione", error.message);
@@ -98,7 +98,7 @@ export async function getByCategory(categoria){
         if(!response.ok){
             throw new Error('Errore nel recupero dei componenti');
         }
-        return await response.json();
+        return await response;
 
     }catch(error){
         console.log("Errore nel recupero dati dal DataBase");

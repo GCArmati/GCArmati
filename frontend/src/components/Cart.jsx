@@ -6,23 +6,24 @@ export default function Cart(){
     const [cart,setCart]=useState(null);
     const [message,setMessage]=useState('');
 
+
     useEffect(() => {
         async function fetchCart(){
-            const {data}=await getCart();
+            const data=await getCart();
             if(data.message){
                 setMessage(data.message);
             }else{
                 setCart(data.cart)
             }
         }
-        fetchCart().catch(err=>console.log(err));
-    }, [cart]);
-    if(message)return<p>{message}</p>;
+        fetchCart();
+    }, [ ]);
 
 
 
     return(
         <>
+            {message &&<p>{message}</p>}
             <p id={"testoSup"}>Il Tuo Carrello</p>
             {cart && cart.componentsList.map(item=>(
                 <Card key={item.componentElement} amount={item.amount}></Card>
