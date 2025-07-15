@@ -32,14 +32,17 @@ async function addToCart(req,res){
         //uso il metodo find per trovare un componente della lista (caratterizzato dal singolo componente e dalla quantità nel carrello (amount)), che abbia lo stesso id
         //del componente che si sta aggiungendo
         const existingItem=userCart.componentsList.find(item=>item.componentElement===componentId)
+        console.log("DUPLICATO: ",existingItem);
         //se c'è nella lista
         if(existingItem){
+            console.log("Quantità nel db prima: ")
             //semplicemente aumento di uno la quantità da acquistare, qui si può pensare alla funzione di controllo sulla quantità in magazzino
             existingItem.amount+=1;
             //qui con il save ricalcolo anche il prezzo totale da mostrare in basso
+
             await userCart.save();
             //nella risposta dico tutto bene e gli mando anche il carrello nuovo
-            res.status(201).json({message:"Carrello aggiornato",cart: userCart})
+            res.status(201).json({message:"Carrello aggiornato"})
         }else{
             //in questo caso, se il componente non c'è nel carrello, devo pushare un ulteriore elemento
             userCart.componentsList.push({componentElement:componentId,amount:1})
@@ -85,27 +88,34 @@ async function getCart(req,res){
     try{
         //qui non faccio nessun controllo, userId c'è per forza a patto che il token di accesso dell'utente sia valido
         const userId=req.user.id; //ottenuto da verifyToken
+        console.log('UTENTEID ',userId)
         //dall'userId risalgo all'account
         const user=await User.findById(userId)
+        console.log('UTENTE ',user)
+
         //dall'account risalgo al carrello dell'utente
         const userCart=await Cart.findOne({_id:user.myCart})
+        console.log('CARRELLO ',userCart)
         if(userCart.componentsList.length===0){
+            console.log("Carrello vuoto")
             res.status(200).json({
                 message:"Il carrello è vuoto. Prova ad aggiungere qualcosa."
             })
         }else{
-            const components=userCart.componentsList.map(async item=>{
+            const components=await Promise.all(userCart.componentsList.map(async item=>{
+                console.log("COMPONENTE ", await Component.findById(item.componentElement));
                 return{
                     component:await Component.findById(item.componentElement),
                     amount:item.amount
                 }
-            })
+            }));
 
             res.json({
                 cart:components, //array di oggetti formati da un componente e dalla relativa quantità
                 prezzoTot:userCart.prezzoTotale,
             })
         }
+
     }catch(e){
         console.error(e);
         res.status(500).json({message:"Errore Interno, riprovare più tardi"})

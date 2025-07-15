@@ -36,7 +36,15 @@ export async function create(component){
             body: JSON.stringify(component),
         })
 
-        return await response;
+        const res = await response;
+
+        if(localStorage.getItem('currentUser')!=="Admin"){
+            return res.status(400).json({message: "Errore"})
+        }
+
+        return res;
+
+        //return await response;
 
     }catch(error){
         console.log("Errore in fase di modifica", error.message);
@@ -56,7 +64,15 @@ export async function editPrice(id, price){
             body: JSON.stringify({price}),
         })
 
-        return await response;
+        const res = await response;
+
+        if(localStorage.getItem('currentUser')!=="Admin"){
+            return res.status(400).json({message: "Errore"})
+        }
+
+        return res;
+
+        //return await response;
 
     }catch(error){
         console.log("Errore in fase di modifica", error.message);
@@ -75,7 +91,15 @@ export async function removeComponent(id){
             }
         })
 
-        return await response;
+        const res = await response;
+
+        if(localStorage.getItem('currentUser')!=="Admin"){
+            return res.status(400).json({message: "Errore"})
+        }
+
+        return res;
+
+        //return await response;
 
     }catch(error){
         console.log("Errore in fase di cancellazione", error.message);

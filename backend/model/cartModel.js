@@ -31,13 +31,14 @@ cartSchema.pre('save',async function(next){
         for(const item of carrello.componentsList){
             const product =await Component.findOne({_id: item.componentElement});
             if(product){
-                tot+=product.price;
+                tot+=product.price*item.amount;
             }else{
                 //debug
                 console.log("Elemento "+item.componentElement+" non presente tra i componenti nel database del sito");
 
             }
         }
+        console.log("PREZZO TOTALE: ", tot);
         next();
     }catch(e){
         next(e);

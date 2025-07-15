@@ -34,8 +34,8 @@ export async function login(email,password){
         if(data.accessToken){
             localStorage.setItem('accessToken',data.accessToken)
         }
-        if(data.userRole){
-            localStorage.setItem('currentUser',data.userRole)
+        if(data.role){
+            localStorage.setItem('currentUser',data.role)
         }
 
         return data;

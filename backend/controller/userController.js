@@ -4,11 +4,11 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 //creo una funzione che genera due tokens
-const generateTokens=(userID, userROLE)=>{
+const generateTokens=(userID)=>{
     //token che verrà inserito nel cookie e che verrà aggiornato in un periodo di tempo ristretto
-    const accessToken=jwt.sign({userId:userID, userRole:userROLE},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
+    const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
     //token che verrà inserito nel DB e che verrà aggiornato in un periodo di tempo ampio
-    const refreshToken=jwt.sign({userId:userID, userRole:userROLE},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
+    const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
     return  {accessToken,refreshToken};
 }
 
@@ -62,11 +62,10 @@ async function login(req,res){
         const valid= await user.comparePassword(password)
         if(!valid) return res.status(401).json({error:"Password Errata. Login Non effettuato."})
 
-        const {accessToken,refreshToken}=generateTokens(user._id, user.role);
+        const {accessToken,refreshToken}=generateTokens(user._id);
         await RefreshToken.create({
             token:refreshToken,
             userId:user._id,
-            userRole: user.role
         });
 
         //salva refresh token
@@ -81,7 +80,7 @@ async function login(req,res){
         res.json({
             message: "Login effettuato con successo!",
             accessToken,
-            userRole:user.role
+            role:user.role
         });
     }catch(err){
         console.error(err);
@@ -123,7 +122,7 @@ async function refreshToken(req,res){ //da esportare
             }
             //dal momento che è valido posso generare il nuovo accessToken
             const newAccessToken = jwt.sign(
-                { userId: decoded.userId, userRole: decoded.userRole },
+                { userId: decoded.userId,},
                 process.env.LOGIN_TOKEN,
                 { expiresIn: '25m' }
             );

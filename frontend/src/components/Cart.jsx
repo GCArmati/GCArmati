@@ -1,35 +1,45 @@
 import {useEffect, useState} from "react";
 import {getCart} from "../routes/cartRoutes.js";
-
-import Card2 from "./Card2.jsx";
-import Card from "./Card.jsx";
+import CartCard from "../components/CartCard.jsx";
 
 export default function Cart(){
     const [cart,setCart]=useState(null);
+    const [tot,setTot]=useState(0);
     const [message,setMessage]=useState('');
 
     useEffect(() => {
         async function fetchCart(){
-            const data=await getCart();
-            if(data.message){
-                setMessage(data.message);
-            }else{
-                setCart(data.cart)
-            }
-        }
-        fetchCart().catch(err=>console.log(err));
-    }, [cart]);
-    if(message)return<p>{message}</p>;
+            const {cart,message}=await getCart();
 
+            if(message){
+                console.log(message);
+                setMessage(message);
+            }else{
+                console.log(cart);
+                setCart(cart)
+            }
+            const prezzoTot=cart.reduce((tot,item)=>{
+                return tot+item.component.price*item.amount;
+            },0)
+            setTot(prezzoTot)
+
+            //console.log(message);
+        }
+
+        fetchCart().catch(err=>console.log(err));
+    }, []);
+
+
+    if(message)return<p>{message}</p>;
 
 
     return(
         <>
             <p id={"testoSup"}>Il Tuo Carrello</p>
-            {cart && cart.componentsList.map(item=>(
-                <Card key={item.componentElement} amount={item.amount}></Card>
+            {cart && cart.map(item=>(
+                <CartCard key={item.component._id} component={item.component} amount={item.amount} ></CartCard>
             ))}
-            {cart && <h3>Totale:{cart.prezzoTotale}€</h3>}
+            {cart && <h3>Totale:{tot}€</h3>}
         </>
     )
 }

@@ -16,7 +16,7 @@ export async function customFetch(url, options) {
 
     // Prova la richiesta iniziale
     const response = await fetch(url, authOptions);
-    console.log(response.headers);
+    //console.log(response.headers);
 
     // Se è 401, prova a fare il refresh del token
     if (response.status === 401 || response.status === 403) {
@@ -58,6 +58,7 @@ export async function customFetch(url, options) {
     }
 
     // Se non è 401 ritorna normalmente
+
     return response.json();
 }
 
@@ -84,12 +85,10 @@ export async function getCart() {
         const response = await customFetch('http://localhost:3000/api/cart', {
             method: 'GET',
             credentials: 'include', // se usi cookie-based auth
-            headers: {
-                'Content-Type': 'application/json',
-            }
+
         });
 
-        return {cart:response.cart,totale:response.prezzoTot}
+        return {cart:response.cart, tot:response.prezzoTot}
     } catch (e) {
         return {message: 'Errore di connessione al server.'};
     }
