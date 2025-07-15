@@ -9,8 +9,8 @@ export default function CartCard({component, amount, setCart, cart}){
         console.log(component._id);
         await increaseAmountFetch(component._id)
         setQuant(quant+1);
-        setCart(prev =>
-            prev.map(item =>
+        setCart(cart =>
+            cart.map(item =>
                 item.component._id === component._id
                     ? {...item, amount: item.amount + 1}
                     : item
@@ -20,13 +20,13 @@ export default function CartCard({component, amount, setCart, cart}){
     const handleDecrease = async () => {
         if (quant === 1) {
             await removeFromCart(component._id);
-            setCart(prev => prev.filter(item => item.component._id !== component._id));
+            setCart(cart => cart.filter(item => item.component._id !== component._id));
             alert("Rimosso dal carrello.");
         } else {
             await decreaseAmountFetch(component._id);
             setQuant(quant-1);
-            setCart(prev =>
-                prev.map(item =>
+            setCart(cart =>
+                cart.map(item =>
                     item.component._id === component._id
                         ? {...item, amount: item.amount - 1}
                         : item

@@ -9,18 +9,21 @@ import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
 import Cart from "./components/Cart.jsx"
 import Checkout from './components/Checkout.jsx'
+import {useState} from "react";
 
 
 function App() {
+    const [userLogin,setUserLogin]=useState('')
+
 
     return (
         <div className={"d-flex flex-column min-vh-100"}>
-            <Header></Header>
+            <Header userLogin={userLogin} setUserLogin={setUserLogin}></Header>
             <main className={"flex-fill p-3"}>
                 <Routes>
                     <Route path={"/"} element={<Home />}/>
                     <Route path={"/register"} element={<Register />} />
-                    <Route path={"/login"} element={<Login />} />
+                    <Route path={"/login"} element={<Login userLogin={userLogin} setUserLogin={setUserLogin}/>} />
                     <Route path={"/dashboard"} element={<Dashboard />} />
                     <Route path={"/modify"} element={<FormModifyComponent/>} />
                     <Route path={"/category"} element={<CategoryList />} />

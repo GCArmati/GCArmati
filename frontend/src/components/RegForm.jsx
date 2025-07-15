@@ -21,12 +21,13 @@ export default function RegForm(){
         e.preventDefault();
         const data=await register(email,password,name); //già parsati praticamente
         alert(data.message);
+        if(data.status===201) navigate('/login')
 
         setName('');
         setEmail('');
         setPassword('');
 
-        navigate("/");
+
     }
 
     return (

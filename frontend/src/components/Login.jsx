@@ -5,7 +5,7 @@ import {useState} from "react";
 import {login} from "../routes/authRoutes.js";
 import {create} from "../routes/componentRoutes.js";
 
-export default function Login(){
+export default function Login({setUserLogin}){
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
 
@@ -23,6 +23,8 @@ export default function Login(){
         try {
             const response=await login(email,password);
             alert(response.message)
+            setUserLogin(String(localStorage.getItem('currentUser')))
+            navigate('/');
         } catch (error) {
             alert("Errore in fase di login.");
         }
@@ -30,7 +32,7 @@ export default function Login(){
         setEmail('');
         setPassword('');
 
-        navigate('/');
+
     }
 
     return (

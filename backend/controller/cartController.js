@@ -65,10 +65,8 @@ async function addToCart(req,res){
 async function removeFromCart(req,res){
 
     try{
-        console.log(req.body);
         //dal target del click devo prendere id componente da rimuovere COMPLETAMENTE
         const {componentId}=req.body;
-        console.log("COMPONENTID REMOVE: ",componentId)
         if(!componentId){
             res.status(400).json({message:"ComponentId not found in the request"})
         }
@@ -78,14 +76,17 @@ async function removeFromCart(req,res){
         if(!userId){res.status(404).json({message:"Utente non trovato"})}
         //dall'account risalgo al carrello dell'utente
         const userCart=await Cart.findOne({_id:user.myCart})
-        console.log("USERCART: ",userCart)
-        userCart.componentsList=userCart.componentsList.filter(item=> String(item.componentElement) !== componentId);
+        const newCartList=userCart.componentsList.filter(e=>{
+            console.log("DEBUG componenti: ",String(e.componentElement),' ',componentId)
+            return String(e.componentElement) !== componentId
+        } )
+        userCart.componentsList=newCartList;
         await userCart.save();
-        res.status(200).json({message:"Elemento rimosso dal carrello."})
+        res.status(200).json({message:"Elemento rimosso dal carrello.",cart: newCartList})
 
     }catch(e){
         console.error(e)
-        res.status(500).json({message:'Internal error'})
+        res.status(500).json({message:'Internale error'})
     }
 }
 
@@ -109,6 +110,7 @@ async function getCart(req,res){
             })
         }else{
             const components=await Promise.all(userCart.componentsList.map(async item=>{
+                console.log("COMPONENTE ", await Component.findById(item.componentElement));
                 return{
                     component:await Component.findById(item.componentElement),
                     amount:item.amount
@@ -134,25 +136,12 @@ async function decreaseAmount(req,res){
     const userCartId=user.myCart;
     const userCart=await Cart.findById(userCartId);
     const itemToDecrease=userCart.componentsList.find(item=>String(item.componentElement)===componentId);
-
-    console.log("amount ",itemToDecrease.amount);
-
-    if(itemToDecrease.amount===1){
-        userCart.componentsList.filter(item=>String(item.componentElement)!==componentId); //lo toglie dalla lista
-        await userCart.save();
-        res.status(200).json({
-            message:"Componente rimosso dal carrello.",
-            cart:userCart
+    itemToDecrease.amount-=1;
+    await userCart.save();
+    res.status(200).json({
+        /*message:"Ne rimangono "+itemToDecrease.amount+" nel carrello dell'utente.",
+        cart:userCart*/
         })
-    }else{
-        itemToDecrease.amount-=1;
-        await userCart.save();
-        console.log("CART AGGIORNATO: ",userCart);
-        res.status(200).json({
-            message:"Ne rimangono "+itemToDecrease.amount+" nel carrello dell'utente.",
-            cart:userCart
-        })
-    }
 }
 
 async function increaseAmount(req,res){
@@ -162,7 +151,6 @@ async function increaseAmount(req,res){
     const userCartId=user.myCart;
     const userCart=await Cart.findById(userCartId);
     const itemToIncrease=userCart.componentsList.find(item=>String(item.componentElement)===componentId);
-    console.log(itemToIncrease)
     itemToIncrease.amount+=1;
     await userCart.save();
     res.status(200).json({
