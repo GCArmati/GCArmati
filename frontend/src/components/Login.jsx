@@ -15,13 +15,18 @@ export default function Login(){
         setEmail('');
         setPassword('');
     }
+    function handleReset(e){
+        e.preventDefault();
+        setEmail('');
+        setPassword('');
+    }
 
     return (
         <>
             <p id={"testoSup"}>Modulo di Accesso</p>
             <div id={"superContainerL"}>
                 <div id={"loginContainer"}>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} onReset={handleReset}>
                         <div>
                             <label htmlFor="Email">Email address</label>
                             <input id="Email" type="email" className="form-control"  placeholder="Email..." onChange={(e)=>setEmail(e.target.value)} value={email}/>

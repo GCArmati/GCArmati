@@ -1,5 +1,5 @@
 
-async function customFetch(url, options = {}) { //pensata per richiedere accessToken in automatico e poi ripetere l'operazione
+export async function customFetch(url, options = {}) { //pensata per richiedere accessToken in automatico e poi ripetere l'operazione
     //da sola
     // Estrae il token attuale
     const token = localStorage.getItem('accessToken');

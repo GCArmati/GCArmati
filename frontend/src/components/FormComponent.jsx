@@ -1,6 +1,7 @@
 import {create} from "../routes/componentRoutes.js";
 import {useState} from "react";
 
+
 export default function FormComponent(){
     const [formData, setFormData] = useState({
         nome: "",
@@ -43,9 +44,9 @@ export default function FormComponent(){
     }
 
     return(
-        <form onSubmit={handleCreate}>
-            <div>
-                <label>Nome:</label>
+        <form id={"modifyForm"} className="modify-form mx-auto p-2" onSubmit={handleCreate}>
+            <div className="modify-group row mb-3 align-items-center">
+                <label className="modify-label col-sm-3 col-form-label text-sm-start">Nome:</label>
                 <input
                     required
                     type="text"
@@ -54,8 +55,8 @@ export default function FormComponent(){
                     value={formData.nome}
                 />
             </div>
-            <div>
-                <label>URL Immagine:</label>
+            <div className="modify-group row mb-3 align-items-center">
+                <label className="modify-label col-sm-3 col-form-label text-sm-start">URL Immagine:</label>
                 <input
                     type={"text"}
                     required
@@ -64,8 +65,8 @@ export default function FormComponent(){
                     value={formData.imgUrl}
                 />
             </div>
-            <div>
-                <label>Descrizione:</label>
+            <div className="modify-group row mb-3 align-items-center">
+                <label className="modify-label col-sm-3 col-form-label text-sm-start">Descrizione:</label>
                 <textarea
                     cols="30"
                     rows="10"
@@ -75,8 +76,8 @@ export default function FormComponent(){
                 >
                 </textarea>
             </div>
-            <div>
-                <label>Prezzo:</label>
+            <div className="modify-group row mb-3 align-items-center">
+                <label className="modify-label col-sm-3 col-form-label text-sm-start">Prezzo:</label>
                 <input
                     type="number"
                     min="0"
@@ -86,8 +87,8 @@ export default function FormComponent(){
                     value={formData.prezzo}
                 />
             </div>
-            <div>
-                <label>Categoria:</label>
+            <div className="modify-group row mb-3 align-items-center">
+                <label className="modify-label col-sm-3 col-form-label text-sm-start">Categoria:</label>
                 <select name="categoria" required onChange={handleInput} value={formData.categoria}>
                     <option value=""></option>
                     <option value={"processor"}>Processor</option>
@@ -101,7 +102,7 @@ export default function FormComponent(){
                     <option value={"power-supply"}>Power Supply</option>
                 </select>
             </div>
-            <button type={"submit"}>Crea Componente</button>
+            <button id={"creaComponente"} type={"submit"}>Crea Componente</button>
         </form>
     )
 }

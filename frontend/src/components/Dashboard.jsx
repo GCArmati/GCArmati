@@ -1,4 +1,4 @@
-
+import './Dashboard.css'
 import {useState} from 'react'
 import ComponentList from './ComponentList.jsx'
 import FormComponent from './FormComponent.jsx'

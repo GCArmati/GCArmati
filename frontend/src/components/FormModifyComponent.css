@@ -6,11 +6,20 @@
 .modify-form select,
 .modify-form textarea {
     background-color: #FFFFFF;
-    color: #000;
+
 }
 
 .modify-form input:disabled,
 .modify-form select:disabled,
 .modify-form textarea:disabled {
     background-color: #FFFFFF;
+}
+
+#creaComponente{
+    color:#b2f7ef;
+
+}
+
+#modifyForm label{
+    color:white;
 }

@@ -16,9 +16,15 @@ export default function RegForm(){
         setEmail('');
         setPassword('');
     }
+    function handleReset(e){
+        e.preventDefault();
+        setName('');
+        setEmail('');
+        setPassword('');
+    }
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} onReset={handleReset}>
                 <div>
                     <label htmlFor="Username">Username</label>
                     <input id="Username" type="text" className="form-control"  placeholder="Username..." onChange={(e)=>setName(e.target.value)} value={name}/>
@@ -36,7 +42,7 @@ export default function RegForm(){
 
                     <button type="reset" className="btn btn-danger">Cancella</button>
 
-                    <Link to={"/login"}><button type="submit" className="btn btn-primary">Login</button></Link>
+                    <Link to={"/login"}><button type="button" className="btn btn-primary">Login</button></Link>
                 </div>
                 <p id={"testoInf"}>Se hai già un account clicca su login.</p>
 
