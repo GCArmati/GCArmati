@@ -20,12 +20,11 @@
 .modify-form input:disabled,
 .modify-form select:disabled,
 .modify-form textarea:disabled {
-    width:300px;
+    width:95%;
     background-color: #FFFFFF;
-    color: #808080;
+    color: #000;
     border-radius: 0.5rem;
-    margin-top:20px;
-    margin-bottom: -20px;
+    margin: 0.25rem auto;
     font-size:1.3em;
 }
 

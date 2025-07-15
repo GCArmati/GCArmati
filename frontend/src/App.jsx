@@ -8,6 +8,7 @@ import CategoryList from './components/CategoryList.jsx'
 import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
 import Cart from "./components/Cart.jsx"
+import Checkout from './components/Checkout.jsx'
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                     <Route path={"/modify"} element={<FormModifyComponent/>} />
                     <Route path={"/category"} element={<CategoryList />} />
                     <Route path={"/cart"} element={<Cart/>} />
+                    <Route path={'/checkout'} element={<Checkout/>}/>
                 </Routes>
             </main>
             <Footer></Footer>

@@ -88,15 +88,27 @@ export async function getCart() {
 
         });
 
-        return {cart:response.cart, tot:response.prezzoTot}
+        return {cart:response.cart, tot:response.prezzoTot,message:response.message}
     } catch (e) {
         return {message: 'Errore di connessione al server.'};
     }
 }
 
+export async function removeFromCart(componentId) {
+    await customFetch("http://localhost:3000/api/cart/remove", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ componentId }),
+    });
+
+}
+
 export async function decreaseAmountFetch(componentId){
     try{
-        const response = await customFetch('http://localhost:3000/api/cart/decrease', {
+        await customFetch('http://localhost:3000/api/cart/decrease', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -104,9 +116,6 @@ export async function decreaseAmountFetch(componentId){
             body: JSON.stringify({ componentId }),
             credentials: 'include'
         });
-
-        const data = await response;
-        return { ok: response.ok, message:data.message };
     }catch(e){
         return {message:"Errore di connessione."}
     }
@@ -116,7 +125,7 @@ export async function decreaseAmountFetch(componentId){
 export async function increaseAmountFetch(componentId){
 
     try{
-        const response = await customFetch('http://localhost:3000/api/cart/decrease', {
+        const response = await customFetch('http://localhost:3000/api/cart/increase', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -124,9 +133,6 @@ export async function increaseAmountFetch(componentId){
             body: JSON.stringify({ componentId }),
             credentials: 'include'
         });
-
-        const data = await response;
-        return { ok: response.ok, message:data.message };
 
     }catch(e){
         return {message:'Errore di connessione.'}

@@ -11,7 +11,6 @@ export async function register(email, password, username) {
 
         return await response.json();
 
-
     } catch (err) {
         console.error('Errore durante la registrazione:', err);
         throw err;
@@ -45,33 +44,17 @@ export async function login(email,password){
     }
 }
 
-export async function refreshTokenFetch(){
+export async function logoutFetch(){
     try{
-        const response=await fetch(`http://localhost:3000/api/auth/refresh`,{
-            method:'POST',
-            credentials:'include',
-
-        });
-        const data=await response.json();
-        if(data.accessToken){
-            localStorage.setItem('accessToken',data.accessToken)
-        }
-        return data;
-    }catch(e){
-        console.error("Errore in fase di refresh token: ",e);
-        throw e;
-    }
-}
-
-export async function logout(){
-    try{
-        const response=await customFetch(`http://localhost:3000/api/auth/logout`,{
+        const response=await fetch(`http://localhost:3000/api/auth/logout`,{
             method:'POST',
             credentials:'include',
         });
-        return await response.json();
+
+        return await response;
+
     }catch(e){
-        console.error("Errore in fase di refresh token: ",e);
+        console.error("Errore in fase di logout: ",e);
         throw e;
     }
 }

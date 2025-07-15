@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useState } from "react";
 import { register } from'../routes/authRoutes.js'
 
@@ -7,6 +7,8 @@ export default function RegForm(){
     const [name,setName]=useState('');
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
+
+    const navigate = useNavigate();
 
     function handleReset(e){
         e.preventDefault();
@@ -23,6 +25,8 @@ export default function RegForm(){
         setName('');
         setEmail('');
         setPassword('');
+
+        navigate("/");
     }
 
     return (

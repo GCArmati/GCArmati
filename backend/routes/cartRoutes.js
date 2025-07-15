@@ -10,15 +10,15 @@ const {verifyToken}=require('../middleware/authMiddleware')
 router.post('/addCart', verifyToken, addToCart)
 
 //solo "componentId"
-router.post('/removeCart',verifyToken, removeFromCart)
+router.post('/remove',verifyToken, removeFromCart)
 
 //qui nella riserva in realtà non serve nulla se non le info provenienti da verifyToken
 router.get('/',verifyToken, getCart)
 
 //
-router.post('/decrease',verifyToken, )
+router.post('/decrease',verifyToken, decreaseAmount)
 
 //
-router.post('/increase',verifyToken, removeFromCart)
+router.post('/increase',verifyToken, increaseAmount)
 
 module.exports=router;

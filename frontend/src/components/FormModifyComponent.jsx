@@ -61,7 +61,7 @@ export default function FormModifyComponent(){
                 />
             </div>
             <div className="modify-group row mb-3 align-items-center">
-                <label className="modify-label col-sm-3 col-form-label text-sm-start">URL Immagine:</label>
+                <label className="modify-label col-sm-3 col-form-label text-sm-start">Immagine:</label>
                 <input
                     type={"text"}
                     name={"imgUrl"}

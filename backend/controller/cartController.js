@@ -31,9 +31,10 @@ async function addToCart(req,res){
 
         //uso il metodo find per trovare un componente della lista (caratterizzato dal singolo componente e dalla quantità nel carrello (amount)), che abbia lo stesso id
         //del componente che si sta aggiungendo
+        console.log("componentId: ", componentId.toString())
         const existingItem=userCart.componentsList.find(item=>{
-            console.log("Item.componentElement", item.componentElement)
-            item.componentElement===componentId
+            console.log("Item.componentElement", String(item.componentElement))
+            return String(item.componentElement)===componentId
         })
         console.log("DUPLICATO: ",existingItem);
         //se c'è nella lista
@@ -64,8 +65,10 @@ async function addToCart(req,res){
 async function removeFromCart(req,res){
 
     try{
+        console.log(req.body);
         //dal target del click devo prendere id componente da rimuovere COMPLETAMENTE
         const {componentId}=req.body;
+        console.log("COMPONENTID REMOVE: ",componentId)
         if(!componentId){
             res.status(400).json({message:"ComponentId not found in the request"})
         }
@@ -75,14 +78,14 @@ async function removeFromCart(req,res){
         if(!userId){res.status(404).json({message:"Utente non trovato"})}
         //dall'account risalgo al carrello dell'utente
         const userCart=await Cart.findOne({_id:user.myCart})
-        const newCartList=userCart.componentsList.filter(e=> e.componentElement !== componentId);
-        userCart.componentsList=newCartList;
+        console.log("USERCART: ",userCart)
+        userCart.componentsList=userCart.componentsList.filter(item=> String(item.componentElement) !== componentId);
         await userCart.save();
-        res.status(200).json({message:"Elemento rimosso dal carrello.",cart: newCartList})
+        res.status(200).json({message:"Elemento rimosso dal carrello."})
 
     }catch(e){
         console.error(e)
-        res.status(500).json({message:'Internale error'})
+        res.status(500).json({message:'Internal error'})
     }
 }
 
@@ -106,7 +109,6 @@ async function getCart(req,res){
             })
         }else{
             const components=await Promise.all(userCart.componentsList.map(async item=>{
-                console.log("COMPONENTE ", await Component.findById(item.componentElement));
                 return{
                     component:await Component.findById(item.componentElement),
                     amount:item.amount
@@ -131,9 +133,12 @@ async function decreaseAmount(req,res){
     const user=await User.findById(userId);
     const userCartId=user.myCart;
     const userCart=await Cart.findById(userCartId);
-    const itemToDecrease=userCart.componentsList.find(item=>item.componentElement===componentId);
+    const itemToDecrease=userCart.componentsList.find(item=>String(item.componentElement)===componentId);
+
+    console.log("amount ",itemToDecrease.amount);
+
     if(itemToDecrease.amount===1){
-        userCart.componentsList.filter(item=>item.componentElement!==componentId); //lo toglie dalla lista
+        userCart.componentsList.filter(item=>String(item.componentElement)!==componentId); //lo toglie dalla lista
         await userCart.save();
         res.status(200).json({
             message:"Componente rimosso dal carrello.",
@@ -142,6 +147,7 @@ async function decreaseAmount(req,res){
     }else{
         itemToDecrease.amount-=1;
         await userCart.save();
+        console.log("CART AGGIORNATO: ",userCart);
         res.status(200).json({
             message:"Ne rimangono "+itemToDecrease.amount+" nel carrello dell'utente.",
             cart:userCart
@@ -155,7 +161,8 @@ async function increaseAmount(req,res){
     const user=await User.findById(userId);
     const userCartId=user.myCart;
     const userCart=await Cart.findById(userCartId);
-    const itemToIncrease=userCart.componentsList.find(item=>item.componentElement===componentId);
+    const itemToIncrease=userCart.componentsList.find(item=>String(item.componentElement)===componentId);
+    console.log(itemToIncrease)
     itemToIncrease.amount+=1;
     await userCart.save();
     res.status(200).json({

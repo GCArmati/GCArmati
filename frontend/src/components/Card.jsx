@@ -15,7 +15,7 @@ export default function Card({nome, imgURL, descrizione, prezzo, categoria, comp
         console.log(categoria);
     }
 
-    const handleAddToCart = async (e) => {
+    const handleAddToCart = async () => {
         console.log(componentID);
         const {ok,message}= await addToCart(componentID); // <--- ECCO L'USO DEL componentId
 

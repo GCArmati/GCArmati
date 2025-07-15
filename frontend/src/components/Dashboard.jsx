@@ -2,6 +2,7 @@ import './Dashboard.css'
 import {useState} from 'react'
 import ComponentList from './ComponentList.jsx'
 import FormComponent from './FormComponent.jsx'
+import {useNavigate} from 'react-router-dom';
 
 const tabs = [
     { id: "create", label: "Create Component"},
@@ -9,6 +10,8 @@ const tabs = [
 ];
 
 export default function Dashboard(){
+    const navigate = useNavigate();
+
     const [activeTab, setActiveTab] = useState("view");
 
     return (

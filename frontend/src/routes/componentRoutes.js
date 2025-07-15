@@ -30,7 +30,6 @@ export async function create(component){
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                //"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZlOGY0NDhjZDhjMTQ4M2NlNmFhMTEiLCJ1c2VyUm9sZSI6IkFkbWluIiwiaWF0IjoxNzUyNTYzMzgwLCJleHAiOjE3NTI1NjQ4ODB9.LOkZDYatJ0GFzaFwvXNgCic0MghUdQWLiBi6wFK3m08"
             },
             credentials: 'include', // da testare
             body: JSON.stringify(component),
@@ -38,8 +37,10 @@ export async function create(component){
 
         const res = await response;
 
+        console.log(localStorage.getItem('currentUser'));
+
         if(localStorage.getItem('currentUser')!=="Admin"){
-            return res.status(400).json({message: "Errore"})
+            throw new Error("Non sei autorizzato");
         }
 
         return res;
@@ -58,7 +59,6 @@ export async function editPrice(id, price){
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                //"Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZlOGY0NDhjZDhjMTQ4M2NlNmFhMTEiLCJ1c2VyUm9sZSI6IkFkbWluIiwiaWF0IjoxNzUyNTYzMzgwLCJleHAiOjE3NTI1NjQ4ODB9.LOkZDYatJ0GFzaFwvXNgCic0MghUdQWLiBi6wFK3m08`
             },
             credentials: 'include', // da testare
             body: JSON.stringify({price}),
@@ -66,8 +66,10 @@ export async function editPrice(id, price){
 
         const res = await response;
 
+        console.log(localStorage.getItem('currentUser'));
+
         if(localStorage.getItem('currentUser')!=="Admin"){
-            return res.status(400).json({message: "Errore"})
+            throw new Error("Non sei autorizzato");
         }
 
         return res;
@@ -87,14 +89,15 @@ export async function removeComponent(id){
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json",
-                //"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODZlOGY0NDhjZDhjMTQ4M2NlNmFhMTEiLCJ1c2VyUm9sZSI6IkFkbWluIiwiaWF0IjoxNzUyNTY0NzczLCJleHAiOjE3NTI1NjYyNzN9.CbHNaqdYzmu8D1CCNsJzFROjuw7oK8-tUWvRbGM1bbs"
             }
         })
 
         const res = await response;
 
+        console.log(localStorage.getItem('currentUser'));
+
         if(localStorage.getItem('currentUser')!=="Admin"){
-            return res.status(400).json({message: "Errore"})
+            throw new Error("Non sei autorizzato");
         }
 
         return res;
