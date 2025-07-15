@@ -31,7 +31,10 @@ async function addToCart(req,res){
 
         //uso il metodo find per trovare un componente della lista (caratterizzato dal singolo componente e dalla quantità nel carrello (amount)), che abbia lo stesso id
         //del componente che si sta aggiungendo
-        const existingItem=userCart.componentsList.find(item=>item.componentElement===componentId)
+        const existingItem=userCart.componentsList.find(item=>{
+            console.log("Item.componentElement", item.componentElement)
+            item.componentElement===componentId
+        })
         console.log("DUPLICATO: ",existingItem);
         //se c'è nella lista
         if(existingItem){
