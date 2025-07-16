@@ -1,2 +1,1 @@
-Gioco di carri armati Online Flash eccetera
-Mai fidarsi di Mr Vip e Prince North Face e sopratutto Barbabietola82
+Progetto SPA universitario: pagina di E-commerce con funzionalità di controllo legate a utenti, componenti da vendere e carrello utente. 
