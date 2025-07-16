@@ -16,7 +16,7 @@ export default function Card({nome, imgURL, descrizione, prezzo, categoria, comp
 
     const handleAddToCart = async () => {
         console.log(componentID);
-        const {ok,message}= await addToCart(componentID); // <--- ECCO L'USO DEL componentId
+        const {ok,message}= await addToCart(componentID);
 
         if (ok) {
             alert("Aggiunto al carrello!");
@@ -43,7 +43,7 @@ export default function Card({nome, imgURL, descrizione, prezzo, categoria, comp
                     <p className="text-left">Descrizione</p>
                     <p className="text-left">{descrizione}</p>
                 </div>
-                {/* Bottoni e prezzo raggruppati e allineati in basso */}
+
                 <div className="col-auto col-md-auto d-flex flex-column justify-content-end align-items-end">
                     <p>Prezzo</p>
                     <p>{prezzo}</p>

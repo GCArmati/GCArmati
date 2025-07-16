@@ -3,17 +3,16 @@ const RefreshToken=require("../model/tokenModel")
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-//creo una funzione che genera due tokens
+
 const generateTokens=(userID)=>{
-    //token che verrà inserito nel cookie e che verrà aggiornato in un periodo di tempo ristretto
+
     const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
-    //token che verrà inserito nel DB e che verrà aggiornato in un periodo di tempo ampio
+
     const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
     return  {accessToken,refreshToken};
 }
 
-//funzione per fare registrare un account
-//nel body della richiesta ci deve essere username, password ed email
+
 async function register(req,res){
     const {username,password,email}=req.body;
     try{
@@ -38,15 +37,14 @@ async function register(req,res){
         }
 
     }catch(err){
-        //lo so che in console non mi serve a una ciola (forse)
+
         console.error(err);
         res.status(500).json({error:"Errore interno"});
     }
 }
 
 
-//funzione di login che sfrutta le funzioni per generare tokens
-//nel body della richiesta ci deve essere email e password
+
 async function login(req,res){
     const email=req.body.email;
     const password=req.body.password;
@@ -68,15 +66,15 @@ async function login(req,res){
             userId:user._id,
         });
 
-        //salva refresh token
+
         res.cookie('jwt', refreshToken, {
-            httpOnly: true,         // Accessibile solo dal server web
-            secure: process.env.NODE_ENV === 'production', // Solo su HTTPS in produzione, in sviluppo sarà possibile usare anche HTTP
-            sameSite: 'Strict',     // Aiuta a prevenire CSRF
-            maxAge:  6* 24 * 60 * 60 * 1000 // 6 giorni (come la scadenza del token)
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge:  6* 24 * 60 * 60 * 1000
         });
 
-        // Invia l'access token nel corpo della risposta
+
         res.json({
             message: "Login effettuato con successo!",
             accessToken,
@@ -92,35 +90,29 @@ async function login(req,res){
 
 async function refreshToken(req,res){ //da esportare
     const cookies=req.cookies;
-    //controllo con il CHAINING OPERATOR ?. Serve a evitare errori nel caso
-    //l'oggetto prima del punto (cookies) sia null o undefined
-    //if(!cookies.jwt) errore se cookies è undefined
-    //in sostanza se il cookie non esiste o non è definito oppure non c'è
-    //il cookie chiamato jwt entra nel corpo dell'if
+
     if(!cookies?.jwt){
         return res.status(401).json({ message: "Non autorizzato: Refresh token mancante." });
     }
-    //prendo dal fottuto BISCOTTO il token che avevo messo nella fase di login
+
     const refreshTokenFromCookie=cookies.jwt;
 
     try{
         const foundToken=await RefreshToken.findOne ({
             token: refreshTokenFromCookie
         });
-        //se non lo ha trovato nel db ci si fa qualche domanda, evidentemente è una banana
+
         if(!foundToken){
-            //può succedere infatti di trovarlo nel cookie ma non nel DB, molto male amigo
-            // può voler dire che è scaduto o compromesso, quindi gli chiedo il login
-            // (TODO login)
+
             return res.status(403).json({ message: "Proibito: Refresh token non valido o scaduto." });
         }
 
         jwt.verify(refreshTokenFromCookie,process.env.REFRESH_TOKEN,async(err,decoded)=>{
             if(err || foundToken.userId.toString()!== decoded.userId ) {
-                // Se la verifica fallisce o l'ID utente nel token non corrisponde a quello nel DB
+
                 return res.status(403).json({ message: "Proibito: Refresh token non valido o scaduto." });
             }
-            //dal momento che è valido posso generare il nuovo accessToken
+
             const newAccessToken = jwt.sign(
                 { userId: decoded.userId,},
                 process.env.LOGIN_TOKEN,
@@ -140,14 +132,14 @@ async function logout(req,res){
 
     if(!cookies?.jwt){
         return res.sendStatus(204);
-    }//Nessun cookie da rimuovere per l'utente
+    }
     const refreshTokenFromCookie=cookies.jwt;
 
     try{
         await RefreshToken.deleteOne({
             token:refreshTokenFromCookie
         })
-        //pulisco il cookie dal browser
+
         res.clearCookie("jwt",{
             httpOnly:true,
             secure:process.env.NODE_ENV,
@@ -161,7 +153,7 @@ async function logout(req,res){
     }
 }
 
-//funzione per creare un utente dando in pasto username e password,
+
 async function userCreate(username,pw,userEmail){
     try{
         const user=await Users.create({

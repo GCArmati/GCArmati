@@ -1,5 +1,4 @@
-/*la a sono in link*/
 #navbar-container a {
     color: #b2f7ef;
-    text-decoration: none;   /*tMI LEVA LA SOTTOLINEATURA*/
+    text-decoration: none;
 }

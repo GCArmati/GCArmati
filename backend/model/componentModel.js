@@ -8,10 +8,10 @@ const componentSchema = new mongoose.Schema({
     imgUrl:{
         type:String,
         required:true,
-        //mettere errore
+
     },
     description: {
-        //statica
+
         type: String,
         required: [true, "Description is required"],
     },

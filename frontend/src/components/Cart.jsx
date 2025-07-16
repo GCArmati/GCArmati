@@ -21,7 +21,6 @@ export default function Cart(){
                 console.log(cart);
                 setCart(cart)
             }
-            //console.log(message);
         }
         fetchCart().catch(err=>console.log(err));
     }, []);

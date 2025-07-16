@@ -19,7 +19,7 @@ export default function RegForm(){
 
     async function handleSubmit(e){
         e.preventDefault();
-        const data=await register(email,password,name); //già parsati praticamente
+        const data=await register(email,password,name);
         alert(data.message);
         if(data.status===201) navigate('/login')
 
@@ -35,15 +35,15 @@ export default function RegForm(){
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="Username">Username</label>
-                    <input id="Username" type="text" className="form-control"  placeholder="Username..." onChange={(e)=>setName(e.target.value)} value={name}/>
+                    <input id="Username" type="text" className="form-control"  placeholder="Username..." onChange={(e)=>setName(e.target.value)} value={name} required/>
                 </div>
                 <div>
                     <label htmlFor="Email">Email address</label>
-                    <input id="Email" type="email" className="form-control"  placeholder="Email..." onChange={(e)=>setEmail(e.target.value)} value={email}/>
+                    <input id="Email" type="email" className="form-control"  placeholder="Email..." onChange={(e)=>setEmail(e.target.value)} value={email} required/>
                 </div>
                 <div >
                     <label htmlFor="Password">Password</label>
-                    <input type="password" className="form-control" id="Password" placeholder="Password..." onChange={(e)=>setPassword(e.target.value)} value={password}/>
+                    <input type="password" className="form-control" id="Password" placeholder="Password..." onChange={(e)=>setPassword(e.target.value)} value={password} required/>
                 </div>
                 <div id={"buttonContainer"} className={"list-group-horizontal-md"}>
                     <button type="submit" className="btn btn-success">Registrati</button>

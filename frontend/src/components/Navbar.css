@@ -9,13 +9,13 @@
     gap: 10px;
 }
 
-/*la a sono in link*/
+
 #navbar-container a {
     color: #b2f7ef;
-    text-decoration: none;   /*tMI LEVA LA SOTTOLINEATURA*/
+    text-decoration: none;
 }
 
-/* Centra verticalmente titolo e navbar nella row */
+
 header .row {
     display: flex;
     align-items: center;

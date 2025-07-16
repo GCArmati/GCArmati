@@ -8,7 +8,7 @@ function verifyToken(req,res,next){
         return res.status(401).json({message:"Non autorizzato:token mancante o malformato"})
     }
 
-    const token=authHeader.split(' ')[1]; //prende la prima parte separata dopo "Bearer "
+    const token=authHeader.split(' ')[1];
 
     jwt.verify(token,process.env.LOGIN_TOKEN, (err,decoded)=>{
         if(err){

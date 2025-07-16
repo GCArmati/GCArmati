@@ -41,7 +41,7 @@ export default function Card2({nome, imgURL, descrizione, prezzo, categoria, com
                     <p className="text-left">Descrizione</p>
                     <p className="text-left">{descrizione}</p>
                 </div>
-                {/* Bottoni e prezzo raggruppati e allineati in basso */}
+
                 <div className="col-auto col-md-auto d-flex flex-column justify-content-end align-items-end">
                     <p>Prezzo</p>
                     <p>{prezzo}</p>

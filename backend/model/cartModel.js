@@ -8,7 +8,7 @@ const cartSchema=new mongoose.Schema({
             componentElement:{
                 type:mongoose.Schema.Types.ObjectId,
                 ref:Component,
-                required:true, //da vedere meglio
+                required:true,
             },
             amount:{
                 type:Number,
@@ -23,7 +23,7 @@ const cartSchema=new mongoose.Schema({
     }
 });
 
-//tocca provare con evento
+
 cartSchema.pre('save',async function(next){
     const carrello=this;
     let tot=0;
@@ -33,7 +33,7 @@ cartSchema.pre('save',async function(next){
             if(product){
                 tot+=product.price*item.amount;
             }else{
-                //debug
+
                 console.log("Elemento "+item.componentElement+" non presente tra i componenti nel database del sito");
 
             }

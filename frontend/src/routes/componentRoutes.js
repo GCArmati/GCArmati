@@ -4,7 +4,7 @@ export async function getAll(){
     try{
         const response = await customFetch(`http://localhost:3000/api/component/getAll`, {
             method: 'GET',
-            credentials: 'include', //serve per includere il cookie
+            credentials: 'include',
         });
 
         return await response;
@@ -22,7 +22,7 @@ export async function create(component){
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: 'include', // da testare
+            credentials: 'include',
             body: JSON.stringify(component),
         })
 
@@ -35,8 +35,6 @@ export async function create(component){
         }
 
         return res;
-
-        //return await response;
 
     }catch(error){
         console.log("Errore in fase di modifica", error.message);
@@ -51,7 +49,7 @@ export async function editPrice(id, price){
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: 'include', // da testare
+            credentials: 'include',
             body: JSON.stringify({price}),
         })
 
@@ -64,8 +62,6 @@ export async function editPrice(id, price){
         }
 
         return res;
-
-        //return await response;
 
     }catch(error){
         console.log("Errore in fase di modifica", error.message);
@@ -93,7 +89,6 @@ export async function removeComponent(id){
 
         return res;
 
-        //return await response;
 
     }catch(error){
         console.log("Errore in fase di cancellazione", error.message);
@@ -105,7 +100,7 @@ export async function getByCategory(categoria){
     try{
         const response = await customFetch(`http://localhost:3000/api/component/category/${categoria}`, {
             method: 'GET',
-            credentials: 'include', //serve per includere il cookie
+            credentials: 'include',
         });
 
         return await response;

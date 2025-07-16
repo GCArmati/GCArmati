@@ -4,22 +4,16 @@ const {verifyToken} = require('../middleware/authMiddleware')
 
 const router = express.Router();
 
-//POST /api/component/create - only Admin
+
 router.post('/create',verifyToken, createComponent);
-//router.post('/create', createComponent);
 
-//DELETE /api/component/delete/:id - only Admin
 router.delete('/delete/:id', verifyToken, deleteComponent);
-//router.delete('/delete/:id', deleteComponent);
 
-//GET /api/component/getAll
 router.get('/getAll', verifyToken, getAllComponents);
 
-//GET /api/component/category/:category
 router.get("/category/:category", verifyToken, getComponentsByCategory);
 
-//POST /api/component/modifyprice/:id
 router.post("/modifyprice/:id", verifyToken, modifyPrice);
-//router.post('/modifyprice/:id', modifyPrice);
+
 
 module.exports = router;
