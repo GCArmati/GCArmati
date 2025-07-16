@@ -13,8 +13,9 @@ import {useState} from "react";
 
 
 function App() {
-    const [userLogin,setUserLogin]=useState('')
+    const [userLogin,setUserLogin]=useState(localStorage.getItem('currentUser'));
 
+    console.log(localStorage.getItem('currentUser'));
 
     return (
         <div className={"d-flex flex-column min-vh-100"}>

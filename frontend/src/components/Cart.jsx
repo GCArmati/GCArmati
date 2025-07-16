@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {getCart} from "../routes/cartRoutes.js";
 import CartCard from "../components/CartCard.jsx";
 import {Link} from "react-router-dom";
-import Checkout from "./Checkout.jsx";
+import './Checkout.css';
 
 export default function Cart(){
     const [cart,setCart]=useState(null);
@@ -33,11 +33,20 @@ export default function Cart(){
                 return tot + item.component.price * item.amount;
             }, 0);
             setTot(prezzoTot);
+
+            if(prezzoTot===0)setMessage("Il carrello è vuoto. Prova ad aggiungere qualcosa.")
+
         }
     }, [cart]);
 
 
-    if(message)return<p>{message}</p>;
+    if(tot===0 ){
+        console.log(message);
+        return(
+            <div className="checkout-form text-sm-center">
+                <p className="text-form">{message}</p>
+            </div>)
+    }
 
 
     return(

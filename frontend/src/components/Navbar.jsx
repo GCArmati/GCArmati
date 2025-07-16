@@ -1,18 +1,20 @@
 
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import './Navbar.css'
-import {useEffect, useState} from "react";
 import {logoutFetch} from '../routes/authRoutes.js'
 
 
 export default function Navbar({userLogin, setUserLogin}) {
 
+    const navigate = useNavigate();
+
     const handleLogout = async () => {
-        setUserLogin('')
         await logoutFetch();
         localStorage.removeItem("currentUser");
         localStorage.removeItem("accessToken");
+        setUserLogin(localStorage.getItem("currentUser"));
         alert('Logout effettuato.')
+        navigate('/');
     }
 
     return (
@@ -20,7 +22,7 @@ export default function Navbar({userLogin, setUserLogin}) {
             <div className="row">
                 <div className="col-auto"><Link to="/">Home</Link></div>
 
-                {userLogin === '' && (
+                {(userLogin === null) && (
                     <div className="col-auto"><Link to="/register">Register</Link></div>
                 )}
 
@@ -28,7 +30,7 @@ export default function Navbar({userLogin, setUserLogin}) {
                     <div className="col-auto"><Link to="/dashboard">Dashboard</Link></div>
                 )}
 
-                {userLogin !=='' && (
+                {userLogin !==null && (
                     <>
                         <div className="col-auto"><Link to="/cart">Cart</Link></div>
                         <button className={"col-auto"} onClick={handleLogout}>Logout</button>

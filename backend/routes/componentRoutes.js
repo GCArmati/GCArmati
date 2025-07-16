@@ -13,10 +13,10 @@ router.delete('/delete/:id', verifyToken, deleteComponent);
 //router.delete('/delete/:id', deleteComponent);
 
 //GET /api/component/getAll
-router.get('/getAll', getAllComponents);
+router.get('/getAll', verifyToken, getAllComponents);
 
 //GET /api/component/category/:category
-router.get("/category/:category", getComponentsByCategory);
+router.get("/category/:category", verifyToken, getComponentsByCategory);
 
 //POST /api/component/modifyprice/:id
 router.post("/modifyprice/:id", verifyToken, modifyPrice);

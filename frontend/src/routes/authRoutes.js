@@ -29,15 +29,15 @@ export async function login(email,password){
         });
 
         const data=await response.json();
-
+        
         if(data.accessToken){
             localStorage.setItem('accessToken',data.accessToken)
         }
         if(data.role){
             localStorage.setItem('currentUser',data.role)
         }
+        return data
 
-        return data;
     }catch(err){
         console.error("Errore in fase di login:",err);
         throw err;

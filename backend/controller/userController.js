@@ -53,7 +53,7 @@ async function login(req,res){
 
     try{
         if(!email||!password){
-            return res.status(400).json({message:"Email e password sono obbligatori"})
+            return res.status(400).json({error:"Email e password sono obbligatori"})
         }
         const user=await Users.findOne({email: email})
 

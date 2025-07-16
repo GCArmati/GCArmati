@@ -1,7 +1,6 @@
 import './Card.css'
 import {createSearchParams, useNavigate, useLocation} from "react-router-dom";
 import {addToCart} from '../routes/cartRoutes.js'
-import {useState} from "react";
 
 export default function Card({nome, imgURL, descrizione, prezzo, categoria, componentID}) {
     const navigate = useNavigate();

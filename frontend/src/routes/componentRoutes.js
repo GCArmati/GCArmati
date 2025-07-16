@@ -2,22 +2,13 @@ import {customFetch} from './cartRoutes'
 
 export async function getAll(){
     try{
-        const response = await fetch(`http://localhost:3000/api/component/getAll`, {
+        const response = await customFetch(`http://localhost:3000/api/component/getAll`, {
             method: 'GET',
-            credentials: 'include', //serve per includere il cookie - da testare
+            credentials: 'include', //serve per includere il cookie
         });
 
-        if(!response.ok){
-            throw new Error('Errore nel recupero dati componenti');
-        }
+        return await response;
 
-        const data = await response.json();
-
-        if(data.accessToken){
-            localStorage.setItem('accessToken',data.accessToken)
-        }
-
-        return data;
     }catch(error){
         console.log("Errore in fase di caricamento delle componenti:", error.message)
         throw error;
@@ -112,22 +103,12 @@ export async function removeComponent(id){
 
 export async function getByCategory(categoria){
     try{
-        const response = await fetch(`http://localhost:3000/api/component/category/${categoria}`,{
+        const response = await customFetch(`http://localhost:3000/api/component/category/${categoria}`, {
             method: 'GET',
-            credentials: 'include',
+            credentials: 'include', //serve per includere il cookie
         });
 
-        if(!response.ok){
-            throw new Error('Errore nel recupero dei componenti');
-        }
-
-        const data = await response.json();
-
-        if(data.accessToken){
-            localStorage.setItem('accessToken',data.accessToken)
-        }
-
-        return data;
+        return await response;
 
     }catch(error){
         console.log("Errore nel recupero dati dal DataBase");
