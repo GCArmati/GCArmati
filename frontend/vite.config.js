@@ -1,11 +1,19 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { fileURLToPath } from 'url';
+import path from 'node:path';
 
-// https://vite.dev/config/
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
+
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: path.resolve(__dirname, '../backend/public'),
-    emptyOutDir: true
-  }
-})
+    outDir: 'dist',
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(dirname, './src'),
+    },
+  },
+});
