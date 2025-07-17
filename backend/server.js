@@ -13,7 +13,7 @@ const app = express();
 const Port = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: 'https://polibuilder.onrender.com/', //5173
+    origin: 'https://polibuilder.onrender.com', //5173
     credentials: true
 }));
 app.use(cookieParser());
