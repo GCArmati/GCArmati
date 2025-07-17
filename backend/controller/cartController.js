@@ -5,7 +5,6 @@ const User=require('../model/userModel')
 
 async function addToCart(req,res){
 
-ne
     try{
 
         const {componentId}=req.body;
@@ -114,9 +113,9 @@ async function getCart(req,res){
                     amount:item.amount
                 }
             }));
-            const validComponents = components.filter(comp => comp !== null);
+
             res.json({
-                cart:validComponents,
+                cart:components,
                 prezzoTot:userCart.prezzoTotale,
             })
         }
