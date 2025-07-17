@@ -109,7 +109,6 @@ export async function decreaseAmountFetch(componentId){
     }catch(e){
         return {message:"Errore di connessione."}
     }
-
 }
 
 export async function increaseAmountFetch(componentId){
