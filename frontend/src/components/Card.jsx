@@ -46,7 +46,7 @@ export default function Card({nome, imgURL, descrizione, prezzo, categoria, comp
 
                 <div className="col-auto col-md-auto d-flex flex-column justify-content-end align-items-end">
                     <p>Prezzo</p>
-                    <p>{prezzo}</p>
+                    <p>{prezzo}€</p>
                     <div className="d-flex gap-2">
                         <button className={"btn btn-primary"} onClick={handleAddToCart} value={componentID}>
                             Aggiungi al Carrello
