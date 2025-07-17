@@ -5,7 +5,6 @@ const User=require('../model/userModel')
 
 async function addToCart(req,res){
 
-ne
     try{
 
         const {componentId}=req.body;
