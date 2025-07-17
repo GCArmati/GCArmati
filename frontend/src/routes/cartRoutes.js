@@ -19,6 +19,7 @@ export async function customFetch(url, options) {
                 credentials: 'include'
             });
 
+
             if (!refreshResponse.ok) {
                 console.error("PROBLEMA REFRESH TOKEN")
                 throw new Error('Refresh token non valido');
