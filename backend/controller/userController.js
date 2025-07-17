@@ -67,7 +67,7 @@ async function login(req,res){
         });
 
 
-        res.cookie('refToken', refreshToken, {
+        res.cookie('jwt', refreshToken, {
             httpOnly: true,
             secure: true,
             sameSite: 'None',
@@ -91,11 +91,11 @@ async function login(req,res){
 async function refreshToken(req,res){ //da esportare
     const cookies=req.cookies;
 
-    if(!cookies?.refToken){
+    if(!cookies?.jwt){
         return res.status(401).json({ message: "Non autorizzato: Refresh token mancante." });
     }
 
-    const refreshTokenFromCookie=cookies.refToken;
+    const refreshTokenFromCookie=cookies.jwt;
 
     try{
         const foundToken=await RefreshToken.findOne ({
