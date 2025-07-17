@@ -10,10 +10,10 @@ const cartRoutes=require('./routes/cartRoutes')
 
 const app = express();
 
-const Port = process.env.PORT || 5000;
+const Port = "https://polibuilder-wxxt.onrender.com" //process.env.PORT || 5000;
 
 app.use(cors({
-    origin: 'http://localhost:5173', //5173
+    origin: 'https://polibuilder-7mce.onrender.com', //5173
     credentials: true
 }));
 app.use(cookieParser());
