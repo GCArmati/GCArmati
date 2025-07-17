@@ -114,7 +114,7 @@ export async function decreaseAmountFetch(componentId){
 export async function increaseAmountFetch(componentId){
 
     try{
-        const response = await customFetch('https://polibuilderv1.onrender.com/api/cart/increase', {
+        await customFetch('https://polibuilderv1.onrender.com/api/cart/increase', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

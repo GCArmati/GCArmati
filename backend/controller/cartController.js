@@ -134,7 +134,7 @@ async function decreaseAmount(req,res){
     const itemToDecrease=userCart.componentsList.find(item=>String(item.componentElement)===componentId);
     itemToDecrease.amount-=1;
     await userCart.save();
-    res.status(200)
+    res.sendStatus(200)
 }
 
 async function increaseAmount(req,res){
@@ -146,10 +146,7 @@ async function increaseAmount(req,res){
     const itemToIncrease=userCart.componentsList.find(item=>String(item.componentElement)===componentId);
     itemToIncrease.amount+=1;
     await userCart.save();
-    res.status(200).json({
-        message:"Componente aggiunto correttamente.",
-        cart:userCart
-    })
+    res.sendStatus(200)
 }
 
 module.exports={
