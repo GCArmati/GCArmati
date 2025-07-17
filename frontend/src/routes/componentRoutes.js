@@ -2,7 +2,7 @@ import {customFetch} from './cartRoutes'
 
 export async function getAll(){
     try{
-        const response = await customFetch(`http://localhost:3000/api/component/getAll`, {
+        const response = await customFetch(`https://polibuilderv1.onrender.com/api/component/getAll`, {
             method: 'GET',
             credentials: 'include',
         });
@@ -17,7 +17,7 @@ export async function getAll(){
 
 export async function create(component){
     try{
-        const response = await customFetch(`http://localhost:3000/api/component/create`, {
+        const response = await customFetch(`https://polibuilderv1.onrender.com/api/component/create`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export async function create(component){
 
 export async function editPrice(id, price){
     try{
-        const response = await customFetch(`http://localhost:3000/api/component/modifyprice/${id}`, {
+        const response = await customFetch(`https://polibuilderv1.onrender.com/api/component/modifyprice/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export async function editPrice(id, price){
 
 export async function removeComponent(id){
     try{
-        const response = await customFetch(`http://localhost:3000/api/component/delete/${id}`, {
+        const response = await customFetch(`https://polibuilderv1.onrender.com/api/component/delete/${id}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
@@ -98,7 +98,7 @@ export async function removeComponent(id){
 
 export async function getByCategory(categoria){
     try{
-        const response = await customFetch(`http://localhost:3000/api/component/category/${categoria}`, {
+        const response = await customFetch(`https://polibuilderv1.onrender.com/api/component/category/${categoria}`, {
             method: 'GET',
             credentials: 'include',
         });

@@ -14,7 +14,7 @@ export async function customFetch(url, options) {
 
     if (response.status === 401 || response.status === 403) {
         try {
-            const refreshResponse = await fetch('http://localhost:3000/api/auth/refresh', {
+            const refreshResponse = await fetch('https://polibuilderv1.onrender.com/api/auth/refresh', {
                 method: 'POST',
                 credentials: 'include'
             });
@@ -53,7 +53,7 @@ export async function customFetch(url, options) {
 
 export async function addToCart(componentId) {
     try {
-        const response = await customFetch('http://localhost:3000/api/cart/addCart', {
+        const response = await customFetch('https://polibuilderv1.onrender.com/api/cart/addCart', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export async function addToCart(componentId) {
 
 export async function getCart() {
     try {
-        const response = await customFetch('http://localhost:3000/api/cart', {
+        const response = await customFetch('https://polibuilderv1.onrender.com/api/cart', {
             method: 'GET',
             credentials: 'include',
 
@@ -84,7 +84,7 @@ export async function getCart() {
 }
 
 export async function removeFromCart(componentId) {
-    await customFetch("http://localhost:3000/api/cart/remove", {
+    await customFetch("https://polibuilderv1.onrender.com/api/cart/remove", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export async function removeFromCart(componentId) {
 
 export async function decreaseAmountFetch(componentId){
     try{
-        await customFetch('http://localhost:3000/api/cart/decrease', {
+        await customFetch('https://polibuilderv1.onrender.com/api/cart/decrease', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ export async function decreaseAmountFetch(componentId){
 export async function increaseAmountFetch(componentId){
 
     try{
-        const response = await customFetch('http://localhost:3000/api/cart/increase', {
+        const response = await customFetch('https://polibuilderv1.onrender.com/api/cart/increase', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
