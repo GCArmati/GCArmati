@@ -48,7 +48,7 @@ export default function Card({nome, imgURL, descrizione, prezzo, categoria, comp
                     <p>Prezzo</p>
                     <p>{prezzo}€</p>
                     <div className="d-flex gap-2">
-                        {(userLogin !==null) && (
+                        {(userLogin ==="Admin" || userLogin ==="Utente") && (
                             <button className={"btn btn-primary"} onClick={handleAddToCart} value={componentID}>
                                     Aggiungi al Carrello
                             </button>
