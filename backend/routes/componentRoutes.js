@@ -9,7 +9,7 @@ router.post('/create',verifyToken, createComponent);
 
 router.delete('/delete/:id', verifyToken, deleteComponent);
 
-router.get('/getAll', verifyToken, getAllComponents);
+router.get('/getAll', getAllComponents);
 
 router.get("/category/:category", verifyToken, getComponentsByCategory);
 
