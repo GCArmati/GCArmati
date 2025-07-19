@@ -22,7 +22,7 @@ function App() {
             <Header userLogin={userLogin} setUserLogin={setUserLogin}></Header>
             <main className={"flex-fill p-3"}>
                 <Routes>
-                    <Route path={"/"} element={<Home />}/>
+                    <Route path={"/"} element={<Home userLogin={userLogin}/>}/>
                     <Route path={"/register"} element={<Register />} />
                     <Route path={"/login"} element={<Login userLogin={userLogin} setUserLogin={setUserLogin}/>} />
                     <Route path={"/dashboard"} element={<Dashboard />} />

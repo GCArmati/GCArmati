@@ -2,7 +2,7 @@ import './Card.css'
 import {createSearchParams, useNavigate, useLocation} from "react-router-dom";
 import {addToCart} from '../routes/cartRoutes.js'
 
-export default function Card({nome, imgURL, descrizione, prezzo, categoria, componentID}) {
+export default function Card({nome, imgURL, descrizione, prezzo, categoria, componentID,userLogin}) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -48,9 +48,10 @@ export default function Card({nome, imgURL, descrizione, prezzo, categoria, comp
                     <p>Prezzo</p>
                     <p>{prezzo}€</p>
                     <div className="d-flex gap-2">
-                        <button className={"btn btn-primary"} onClick={handleAddToCart} value={componentID}>
+                        {userLogin !== null && <button className={"btn btn-primary"} onClick={handleAddToCart} value={componentID}>
                             Aggiungi al Carrello
-                        </button>
+                        </button>}
+
                     </div>
                 </div>
             </div>
