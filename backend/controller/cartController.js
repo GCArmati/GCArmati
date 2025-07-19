@@ -107,17 +107,24 @@ async function getCart(req,res){
             })
         }else{
             const components=await Promise.all(userCart.componentsList.map(async item=>{
-
-
-                console.log("COMPONENTE ", await Component.findById(item.componentElement));
+                const foundComponent=await Component.findById(item.componentElement)
+                console.log("COMPONENTE ", foundComponent);
+                if(!foundComponent){
+                    return{
+                        component:0,
+                        amount:1
+                    }
+                }
                 return{
-                    component:await Component.findById(item.componentElement),
+                    component:foundComponent,
                     amount:item.amount
                 }
             }));
 
+            const validComponents=components.filter(item=>item.component!==0)
+
             res.json({
-                cart:components,
+                cart:validComponents,
                 prezzoTot:userCart.prezzoTotale,
             })
         }
