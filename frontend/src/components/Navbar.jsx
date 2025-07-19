@@ -9,10 +9,11 @@ export default function Navbar({userLogin, setUserLogin}) {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        setUserLogin(null);
+
         await logoutFetch();
         localStorage.removeItem("currentUser");
         localStorage.removeItem("accessToken");
+        setUserLogin(localStorage.getItem("currentUser"));
 
         alert('Logout effettuato.')
         navigate('/');
