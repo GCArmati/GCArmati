@@ -27,7 +27,7 @@ function App() {
                     <Route path={"/login"} element={<Login userLogin={userLogin} setUserLogin={setUserLogin}/>} />
                     <Route path={"/dashboard"} element={<Dashboard />} />
                     <Route path={"/modify"} element={<FormModifyComponent/>} />
-                    <Route path={"/category"} element={<CategoryList />} />
+                    <Route path={"/category"} element={<CategoryList userLogin={userLogin}/>} />
                     <Route path={"/cart"} element={<Cart/>} />
                     <Route path={'/checkout'} element={<Checkout/>}/>
                 </Routes>

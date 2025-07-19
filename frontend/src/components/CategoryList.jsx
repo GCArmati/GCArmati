@@ -32,7 +32,7 @@ export default function CategoryList({userLogin}){
                        descrizione={component.description}
                        prezzo={component.price}
                        componentID={component._id}
-                      userLogin={userLogin}
+                       userLogin={userLogin}
                 >
                 </Card>
             ))}
