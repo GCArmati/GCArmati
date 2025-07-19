@@ -107,6 +107,8 @@ async function getCart(req,res){
             })
         }else{
             const components=await Promise.all(userCart.componentsList.map(async item=>{
+
+
                 console.log("COMPONENTE ", await Component.findById(item.componentElement));
                 return{
                     component:await Component.findById(item.componentElement),
