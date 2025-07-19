@@ -47,8 +47,8 @@ export default function Card({nome, imgURL, descrizione, prezzo, categoria, comp
                 <div className="col-auto col-md-auto d-flex flex-column justify-content-end align-items-end">
                     <p>Prezzo</p>
                     <p>{prezzo}€</p>
+                    <p style={"background-color:red"}>Stato userLogin: {userLogin}</p>
                     <div className="d-flex gap-2">
-                        <p style={"color:red"}>Stato userLogin: {userLogin}</p>
                         {userLogin !==null && (
                             <>
                                 <button className={"btn btn-primary"} onClick={handleAddToCart} value={componentID}>
