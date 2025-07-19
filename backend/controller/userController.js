@@ -71,7 +71,7 @@ async function login(req,res){
             httpOnly: true,
             secure: true,
             sameSite: 'None',
-            maxAge:  6* 24 * 60 * 60 * 1000
+            expires:  6* 24 * 60 * 60 * 1000
         });
 
 
