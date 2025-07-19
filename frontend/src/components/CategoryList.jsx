@@ -3,7 +3,8 @@ import {useState, useEffect} from 'react'
 import {getByCategory} from "../routes/componentRoutes.js";
 import {useSearchParams} from "react-router-dom";
 
-export default function CategoryList(){
+
+export default function CategoryList({userLogin}){
 
     const [searchParams] = useSearchParams()
     const categoria = searchParams.get('category')
@@ -31,6 +32,7 @@ export default function CategoryList(){
                        descrizione={component.description}
                        prezzo={component.price}
                        componentID={component._id}
+                      userLogin={userLogin}
                 >
                 </Card>
             ))}
