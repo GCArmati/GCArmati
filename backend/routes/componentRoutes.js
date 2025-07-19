@@ -9,9 +9,9 @@ router.post('/create',verifyToken, createComponent);
 
 router.delete('/delete/:id', verifyToken, deleteComponent);
 
-router.get('/getAll', getAllComponents);
+router.get('/getAll', verifyToken, getAllComponents);
 
-router.get("/category/:category", verifyToken, getComponentsByCategory);
+router.get("/category/:category", getComponentsByCategory);
 
 router.post("/modifyprice/:id", verifyToken, modifyPrice);
 
