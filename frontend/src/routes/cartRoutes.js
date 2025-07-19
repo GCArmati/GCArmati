@@ -66,7 +66,7 @@ export async function addToCart(componentId) {
         const data = await response;
         return { ok: response.ok, message:data.message };
     } catch (e) {
-        return { ok: false, message: "Errore connessione server"  };
+        return { ok: false, message: "Devi effettuare il Login per aggiungere al carrello."  };
     }
 }
 
