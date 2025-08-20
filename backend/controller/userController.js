@@ -5,15 +5,16 @@ require('dotenv').config();
 
 
 const generateTokens=async (userID)=>{
+    let dataBase=true;
 
     const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"1m"});
-    const refreshFromDB=await RefreshToken.findOne({userId:userID});
-    if(refreshFromDB){
-        return {accessToken,refreshFromDB};
-    }else{
-        const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
-        return  {accessToken,refreshToken};
+    let refreshToken=await RefreshToken.findOne({userId: userID});
+    console.log("refreshFrom DB: ", refreshToken)
+    if(!refreshToken){
+        dataBase=false;
+        refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
     }
+    return {accessToken,refreshToken,dataBase};
 }
 
 
@@ -64,11 +65,13 @@ async function login(req,res){
         const valid= await user.comparePassword(password)
         if(!valid) return res.status(401).json({error:"Password Errata. Login Non effettuato."})
 
-        const {accessToken,refreshToken}=generateTokens(user._id);
-        await RefreshToken.create({
-            token:refreshToken,
-            userId:user._id,
-        });
+        const {accessToken,refreshToken,dataBase}=generateTokens(user._id);
+        if(!dataBase){
+            await RefreshToken.create({
+                token:refreshToken,
+                userId:user._id,
+            });
+        }
 
 
         res.cookie('jwt', refreshToken, {
