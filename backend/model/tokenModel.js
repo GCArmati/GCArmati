@@ -14,6 +14,7 @@ const refreshTokenSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now,
+        expires:"6d" //TTL 6 giorni
 
     },
 });

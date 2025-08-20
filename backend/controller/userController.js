@@ -4,12 +4,16 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 
-const generateTokens=(userID)=>{
+const generateTokens=async (userID)=>{
 
     const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"1m"});
-
-    const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
-    return  {accessToken,refreshToken};
+    const refreshFromDB=await RefreshToken.findOne({userId:userID});
+    if(refreshFromDB){
+        return {accessToken,refreshFromDB};
+    }else{
+        const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
+        return  {accessToken,refreshToken};
+    }
 }
 
 
