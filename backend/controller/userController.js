@@ -8,13 +8,15 @@ const generateTokens=async (userID)=>{
     let dataBase=true;
 
     const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"1m"});
-    let refreshToken=await RefreshToken.findOne({userId: userID});
-    console.log("refreshFrom DB: ", refreshToken)
-    if(!refreshToken){
+    const refreshTokenFromDataBase=await RefreshToken.findOne({userId: userID});
+    if(!refreshTokenFromDataBase){
         dataBase=false;
-        refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
+        const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
+        return {accessToken,refreshToken,dataBase};
+    }else{
+        const refreshToken=refreshTokenFromDataBase.token
+        return {accessToken,refreshToken,dataBase};
     }
-    return {accessToken,refreshToken,dataBase};
 }
 
 
@@ -66,6 +68,7 @@ async function login(req,res){
         if(!valid) return res.status(401).json({error:"Password Errata. Login Non effettuato."})
 
         const {accessToken,refreshToken,dataBase}=await generateTokens(user._id);
+        console.log(dataBase," ", refreshToken)
         if(!dataBase){
             await RefreshToken.create({
                 token:refreshToken,
