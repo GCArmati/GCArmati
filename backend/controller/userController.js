@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const generateTokens=(userID)=>{
 
-    const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"25m"});
+    const accessToken=jwt.sign({userId:userID},process.env.LOGIN_TOKEN,{expiresIn:"1m"});
 
     const refreshToken=jwt.sign({userId:userID},process.env.REFRESH_TOKEN,{expiresIn:"6d"});
     return  {accessToken,refreshToken};
@@ -116,7 +116,7 @@ async function refreshToken(req,res){ //da esportare
             const newAccessToken = jwt.sign(
                 { userId: decoded.userId,},
                 process.env.LOGIN_TOKEN,
-                { expiresIn: '25m' }
+                { expiresIn: '1m' }
             );
             res.json({ accessToken: newAccessToken });
         });

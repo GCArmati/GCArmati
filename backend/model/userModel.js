@@ -18,18 +18,21 @@ const userSchema=new mongoose.Schema({
         minLength:[8,"La password deve contenere almeno 8 caratteri"],
         require:[true,"Inserire una password"],
     },
+
     email:{
         type:String,
         validate:[isEmail,"Inserire un'E-mail valida"],
         required:[true,"Inserire un'E-mail"],
         unique:[true,"Esiste un account associato a questa E-mail"]
     },
+
     role:{
         type:String,
         enum:["Utente","Admin"],
         default:"Utente",
         required:true,
     },
+
     myCart:{
         type:mongoose.Schema.Types.ObjectId,
         ref:Cart,
