@@ -65,7 +65,7 @@ async function login(req,res){
         const valid= await user.comparePassword(password)
         if(!valid) return res.status(401).json({error:"Password Errata. Login Non effettuato."})
 
-        const {accessToken,refreshToken,dataBase}=generateTokens(user._id);
+        const {accessToken,refreshToken,dataBase}=await generateTokens(user._id);
         if(!dataBase){
             await RefreshToken.create({
                 token:refreshToken,
